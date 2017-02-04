@@ -12,7 +12,7 @@ from linebot.models import (
 )
 
 app = Flask(__name__)
-
+port = int(os.getenv('PORT', 8080))
 
 
 line_bot_api = LineBotApi(os.getenv("ACCESS_TOKEN"))
@@ -46,6 +46,5 @@ def handle_message(event):
         event.reply_token,
         TextSendMessage(text=event.message.text))
 
-
-if __name__ == "__main__":
-    app.run()
+if __name__ == '__main__':
+	app.run(host='0.0.0.0', port=port)
