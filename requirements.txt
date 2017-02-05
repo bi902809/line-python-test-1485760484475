@@ -1,3 +1,2 @@
-pip
-flask==0.12
-line-bot-sdk==1.1.0
+flask
+line-bot-sdk
