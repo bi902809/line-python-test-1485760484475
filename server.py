@@ -13,12 +13,8 @@
 #  under the License.
 
 import os
-try:
-  from SimpleHTTPServer import SimpleHTTPRequestHandler as Handler
-  from SocketServer import TCPServer as Server
-except ImportError:
-  from http.server import SimpleHTTPRequestHandler as Handler
-  from http.server import HTTPServer as Server
+from http.server import SimpleHTTPRequestHandler as Handler
+from http.server import HTTPServer as Server
 
 import sys
 from argparse import ArgumentParser
