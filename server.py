@@ -13,8 +13,14 @@
 #  under the License.
 
 import os
+try:
+  from SimpleHTTPServer import SimpleHTTPRequestHandler as Handler
+  from SocketServer import TCPServer as Server
+except ImportError:
+  from http.server import SimpleHTTPRequestHandler as Handler
+  from http.server import HTTPServer as Server
+
 import sys
-import wsgiref.simple_server
 from argparse import ArgumentParser
 
 from builtins import bytes
@@ -99,6 +105,6 @@ if __name__ == '__main__':
     arg_parser.add_argument('-p', '--port', default=8000, help='port')
     options = arg_parser.parse_args()
 
-    httpd = wsgiref.simple_server.make_server('', options.port, application)
+    httpd = Server('', options.port, application)
     httpd.serve_forever()
 
