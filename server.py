@@ -13,10 +13,8 @@
 #  under the License.
 
 import os
-from http.server import SimpleHTTPRequestHandler as Handler
-from http.server import HTTPServer as Server
-
 import sys
+import wsgiref.simple_server
 from argparse import ArgumentParser
 
 from builtins import bytes
@@ -47,6 +45,7 @@ parser = WebhookParser(channel_secret)
 
 def application(environ, start_response):
     # check request path
+    print(environ['PATH_INFO']);
     if environ['PATH_INFO'] != '/callback':
         start_response('404 Not Found', [])
         return create_body('Not Found')
@@ -101,6 +100,6 @@ if __name__ == '__main__':
     arg_parser.add_argument('-p', '--port', default=8000, help='port')
     options = arg_parser.parse_args()
 
-    httpd = Server('', options.port, application)
+    httpd = wsgiref.simple_server.make_server('', options.port, application)
     httpd.serve_forever()
 
