@@ -29,6 +29,7 @@ def hello_world():
         session["count"] += 1
     except:
         session["count"] = 1
+    print("test")
     return 'You are not logged in' + str(session["count"])
     
 @app.route("/callback", methods=['POST'])
@@ -39,6 +40,7 @@ def callback():
     # get request body as text
     body = request.get_data(as_text=True)
     app.logger.info("Request body: " + body)
+    print("Request body: " + body)
     try:
         session["count"] += 1
     except:
