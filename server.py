@@ -68,7 +68,7 @@ def callback():
 			continue
 		callWatson(event)
 		userId = event.source.user_id
-		if userDic[userId]['nextFrontAction'] == 'firstActoin':
+		if userDic[userId]['nextFrontAction'] == 'firstAction':
 			firstActoin(event)
 	return 'OK'
 
@@ -86,7 +86,7 @@ def callWatson(event):
 		r = s.post(WatsonInfo.LOGINURL,data=body)
 		result = json.loads(r.text)
 		userDic[userId] = result['context']
-		userDic[userId]['nextFrontAction'] = 'firstActoin'
+		userDic[userId]['nextFrontAction'] = 'firstAction'
 
 def firstAction(event):
 	global userDic
