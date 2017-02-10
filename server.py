@@ -65,22 +65,17 @@ def callback():
 			continue
 		if not isinstance(event.message, TextMessage):
 			continue
-
-		print('start call watson')
 		output = callWatson(event.source.user_id,event.message.text)
 
 		line_bot_api.reply_message(
 			event.reply_token,
-			TextSendMessage(text='xxxxxx')
+			TextSendMessage(text=output)
 		)
 	return 'OK'
 
 def callWatson(inputUserId, inputText):
 	global userDic
 	print('start call watson')
-	print(WatsonInfo.LOGINURL)
-	print(WatsonInfo.WATSONUSERID)
-	print(WatsonInfo.WATSONPASSWORD)
 	# set login data to dictionary
 	userId = inputUserId
 	if userId not in userDic or inputText != u'こんにちは':
