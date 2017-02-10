@@ -59,7 +59,6 @@ def callback():
 		events = parser.parse(body, signature)
 	except InvalidSignatureError:
 		abort(400)
-
 	# if event is MessageEvent and message is TextMessage, then echo text
 	for event in events:
 		if not isinstance(event, MessageEvent):
@@ -68,7 +67,7 @@ def callback():
 			continue
 
 		print('start call watson')
-		output = callWatson(event.source.userId,event.message.text)
+		output = callWatson(event.source.user_id,event.message.text)
 
 		line_bot_api.reply_message(
 			event.reply_token,
