@@ -50,24 +50,30 @@ def callback():
 	app.logger.info("Request body: " + body)
 	print("Request body: " + body)
 
-	# handle webhook body
+	# parse webhook body
 	try:
-		handler.handle(body, signature)
+		events = parser.parse(body, signature)
 	except InvalidSignatureError:
 		abort(400)
 
+	# if event is MessageEvent and message is TextMessage, then echo text
+	for event in events:
+		if not isinstance(event, MessageEvent):
+			continue
+		if not isinstance(event.message, TextMessage):
+			continue
+		text = callWatson(event)
+
+		line_bot_api.reply_message(
+			event.reply_token,
+			TextSendMessage(text=event.message.text)
+		)
 	return 'OK'
-
-
-@handler.add(MessageEvent, message=TextMessage)
-def handle_message(event):
-	# set login data to dictionary
-	line_bot_api.reply_message(
-		event.reply_token,
-		TextSendMessage(text=callWatson(event)))
 
 def callWatson(event):
 	global userDic
+	print('start call watson')
+	# set login data to dictionary
 	userId = event.source.userId
 	if userId not in userDic or event.message.text != u'こんにちは':
 		userId[userDic] = 'firstState'
@@ -75,7 +81,6 @@ def callWatson(event):
 	s.auth = (watsonUserId, watsonPassword)
 	body = {"userId": "C00001","password": "xxxx"}
 	r = s.post(url + loginUrl,data=body)
-	
 	return r.text
 
 
