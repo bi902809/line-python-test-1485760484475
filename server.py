@@ -27,6 +27,8 @@ class WatsonInfo:
 	MESSAGEURL = URL + 'api/login' 
 	WATSONUSERID = 'coguser' 
 	WATSONPASSWORD = 'watson!'
+	COFFEEUSERID = 'C00011'
+	COFFEEPASSWORD = 'XXXXXXXX'
 
 @app.before_request
 def session_management():
@@ -38,7 +40,7 @@ def hello_world():
 	global userDic
 	inputUserId = 'xxx'
 	inputText = 'XXXX'
-	output = callWatson(inputUserId,inputText)
+	output = callWatsonTest(inputUserId,inputText)
 	for k in userDic.keys():
 		output = output + k + '\n'
 	return 'You are not logged in' + output
@@ -65,7 +67,7 @@ def callback():
 			continue
 		if not isinstance(event.message, TextMessage):
 			continue
-		output = callWatson(event.source.user_id,event.message.text)
+		output = callWatson(event)
 
 		line_bot_api.reply_message(
 			event.reply_token,
@@ -73,7 +75,7 @@ def callback():
 		)
 	return 'OK'
 
-def callWatson(inputUserId, inputText):
+def callWatsonTest(inputUserId, inputText):
 	global userDic
 	print('start call watson')
 	# set login data to dictionary
@@ -83,6 +85,21 @@ def callWatson(inputUserId, inputText):
 	s = requests.Session()
 	s.auth = (WatsonInfo.WATSONUSERID, WatsonInfo.WATSONPASSWORD)
 	body = {"userId": "C00001","password": "xxxx"}
+	r = s.post(WatsonInfo.LOGINURL,data=body)
+	print(r.status_code)
+	print(r.text)
+	return r.text
+
+def callWatson(event):
+	global userDic
+	print('start call watson')
+	# set login data to dictionary
+	userId = event.source.user_id
+	if userId not in userDic or event.message.text != u'こんにちは':
+		userDic[userId] = 'firstState'
+	s = requests.Session()
+	s.auth = (WatsonInfo.WATSONUSERID, WatsonInfo.WATSONPASSWORD)
+	body = {"userId": WatsonInfo.COFFEEUSERID,"password": WatsonInfo.COFFEEPASSWORD}
 	r = s.post(WatsonInfo.LOGINURL,data=body)
 	print(r.status_code)
 	print(r.text)
