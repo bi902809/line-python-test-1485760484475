@@ -76,7 +76,7 @@ def callWatson(event):
 	# set login data to dictionary
 	userId = event.source.userId
 	if userId not in userDic or event.message.text != u'こんにちは':
-		userId[userDic] = 'firstState'
+		userDic[userId] = 'firstState'
 	s = requests.Session()
 	s.auth = (watsonUserId, watsonPassword)
 	body = {"userId": "C00001","password": "xxxx"}
