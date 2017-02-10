@@ -38,7 +38,7 @@ def hello_world():
 	output = ''
 	for k in userDic.keys():
 		output = output + k + '\n'
-	return 'You are not logged in' + str(count)
+	return 'You are not logged in' + output
 	
 @app.route("/callback", methods=['POST'])
 def callback():
