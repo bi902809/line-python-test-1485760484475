@@ -21,11 +21,12 @@ handler = WebhookHandler(os.getenv("LINE_CHANNEL_SECRET", "x"))
 userDic = {}
 
 #Parameters to get Watson Data
-url = 'http://watson-erp-coffee.mybluemix.net/'
-loginUrl = 'api/login'
-messageUrl = 'api/login'
-watsonUserId = 'conguser'
-watsonPassword = 'watson!'
+class WatsonInfo:
+	URL = 'http://watson-erp-coffee.mybluemix.net/'
+	LOGINURL = URL + 'api/login'
+	MESSAGEURL = URL + 'api/login' 
+	WATSONUSERID = 'coguser' 
+	WATSONPASSWORD = 'watson!'
 
 @app.before_request
 def session_management():
@@ -35,13 +36,16 @@ def session_management():
 @app.route('/')
 def hello_world():
 	global userDic
-	output = ''
+	inputUserId = 'xxx'
+	inputText = 'XXXX'
+	output = callWatson(inputUserId,inputText)
 	for k in userDic.keys():
 		output = output + k + '\n'
 	return 'You are not logged in' + output
 	
 @app.route("/callback", methods=['POST'])
 def callback():
+	global userDic
 	# get X-Line-Signature header value
 	signature = request.headers['X-Line-Signature']
 
@@ -62,25 +66,32 @@ def callback():
 			continue
 		if not isinstance(event.message, TextMessage):
 			continue
-		text = callWatson(event)
+
+		print('start call watson')
+		output = callWatson(inputUserId,inputText)
 
 		line_bot_api.reply_message(
 			event.reply_token,
-			TextSendMessage(text=event.message.text)
+			TextSendMessage(text=output)
 		)
 	return 'OK'
 
-def callWatson(event):
+def callWatson(inputUserId, inputText):
 	global userDic
 	print('start call watson')
+	print(WatsonInfo.LOGINURL)
+	print(WatsonInfo.WATSONUSERID)
+	print(WatsonInfo.WATSONPASSWORD)
 	# set login data to dictionary
-	userId = event.source.userId
-	if userId not in userDic or event.message.text != u'こんにちは':
+	userId = inputUserId
+	if userId not in userDic or inputText != u'こんにちは':
 		userDic[userId] = 'firstState'
 	s = requests.Session()
-	s.auth = (watsonUserId, watsonPassword)
+	s.auth = (WatsonInfo.WATSONUSERID, WatsonInfo.WATSONPASSWORD)
 	body = {"userId": "C00001","password": "xxxx"}
-	r = s.post(url + loginUrl,data=body)
+	r = s.post(WatsonInfo.LOGINURL,data=body)
+	print(r.status_code)
+	print(r.text)
 	return r.text
 
 
