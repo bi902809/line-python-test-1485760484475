@@ -69,7 +69,7 @@ def callback():
 		callWatson(event)
 		userId = event.source.user_id
 		if userDic[userId]['nextFrontAction'] == 'firstAction':
-			firstActoin(event)
+			firstAction(event)
 	return 'OK'
 
 def callWatson(event):
@@ -91,7 +91,7 @@ def callWatson(event):
 def firstAction(event):
 	global userDic
 	userId = event.source.user_id
-	output = 'こんにちは、' + userDic[userId]['customerNameJa'] + '様。香りでコーヒーを選んでみるのも良いですね。どのようなご用件でしょうか？'
+	output = u'こんにちは、' + userDic[userId]['customerNameJa'] + u'様。香りでコーヒーを選んでみるのも良いですね。どのようなご用件でしょうか？'
 	line_bot_api.reply_message(
 		event.reply_token,
 		TextSendMessage(text=output)
