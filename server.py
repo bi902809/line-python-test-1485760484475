@@ -29,6 +29,7 @@ class WatsonInfo:
 	WATSONPASSWORD = 'watson!'
 	COFFEEUSERID = 'C00011'
 	COFFEEPASSWORD = 'XXXXXXXX'
+	RESETWORD = u'こんにちは'
 
 @app.before_request
 def session_management():
@@ -38,9 +39,7 @@ def session_management():
 @app.route('/')
 def hello_world():
 	global userDic
-	inputUserId = 'xxx'
-	inputText = 'XXXX'
-	output = callWatsonTest(inputUserId,inputText)
+	output = ''
 	for k in userDic.keys():
 		output = output + k + '\n'
 	return 'You are not logged in' + output
@@ -67,43 +66,36 @@ def callback():
 			continue
 		if not isinstance(event.message, TextMessage):
 			continue
-		output = callWatson(event)
-
-		line_bot_api.reply_message(
-			event.reply_token,
-			TextSendMessage(text=output)
-		)
+		callWatson(event)
+		userId = event.source.user_id
+		if userDic[userId]['nextFrontAction'] == 'firstActoin':
+			firstActoin(event)
 	return 'OK'
-
-def callWatsonTest(inputUserId, inputText):
-	global userDic
-	print('start call watson')
-	# set login data to dictionary
-	userId = inputUserId
-	if userId not in userDic or inputText != u'こんにちは':
-		userDic[userId] = 'firstState'
-	s = requests.Session()
-	s.auth = (WatsonInfo.WATSONUSERID, WatsonInfo.WATSONPASSWORD)
-	body = {"userId": "C00001","password": "xxxx"}
-	r = s.post(WatsonInfo.LOGINURL,data=body)
-	print(r.status_code)
-	print(r.text)
-	return r.text
 
 def callWatson(event):
 	global userDic
 	print('start call watson')
-	# set login data to dictionary
-	userId = event.source.user_id
-	if userId not in userDic or event.message.text != u'こんにちは':
-		userDic[userId] = 'firstState'
+	#Watson Authentications
 	s = requests.Session()
 	s.auth = (WatsonInfo.WATSONUSERID, WatsonInfo.WATSONPASSWORD)
-	body = {"userId": WatsonInfo.COFFEEUSERID,"password": WatsonInfo.COFFEEPASSWORD}
-	r = s.post(WatsonInfo.LOGINURL,data=body)
-	print(r.status_code)
-	print(r.text)
-	return r.text
+	# set login data to dictionary
+	userId = event.source.user_id
+	if userId not in userDic or event.message.text != WatsonInfo.RESETWORD:
+		userDic[userId] = {}
+		body = {"userId": WatsonInfo.COFFEEUSERID,"password": WatsonInfo.COFFEEPASSWORD}
+		r = s.post(WatsonInfo.LOGINURL,data=body)
+		result = json.loads(r.text)
+		userDic[userId] = result['context']
+		userDic[userId]['nextFrontAction'] = 'firstActoin'
+
+def firstAction(event):
+	global userDic
+	userId = event.source.user_id
+	output = 'こんにちは、' + userDic[userId]['customerNameJa'] + '様。香りでコーヒーを選んでみるのも良いですね。どのようなご用件でしょうか？'
+	line_bot_api.reply_message(
+		event.reply_token,
+		TextSendMessage(text=output)
+	)
 
 
 if __name__ == '__main__':
