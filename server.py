@@ -2,7 +2,7 @@ import os, json, requests
 from flask import Flask, request, abort, session
 
 from linebot import (
-	LineBotApi, WebhookHandler
+	LineBotApi, WebhookParser
 )
 from linebot.exceptions import (
 	InvalidSignatureError
@@ -16,7 +16,7 @@ port = int(os.getenv('PORT', 8080))
 app.secret_key = os.urandom(24)
 
 line_bot_api = LineBotApi(os.getenv("LINE_CHANNEL_ACCESS_TOKEN", "x"))
-parser = WebhookHandler(os.getenv("LINE_CHANNEL_SECRET", "x"))
+parser = WebhookParser(os.getenv("LINE_CHANNEL_SECRET", "x"))
 
 userDic = {}
 
