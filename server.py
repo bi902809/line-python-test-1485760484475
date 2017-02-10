@@ -16,7 +16,7 @@ port = int(os.getenv('PORT', 8080))
 app.secret_key = os.urandom(24)
 
 line_bot_api = LineBotApi(os.getenv("LINE_CHANNEL_ACCESS_TOKEN", "x"))
-handler = WebhookHandler(os.getenv("LINE_CHANNEL_SECRET", "x"))
+parser = WebhookHandler(os.getenv("LINE_CHANNEL_SECRET", "x"))
 
 userDic = {}
 
@@ -72,7 +72,7 @@ def callback():
 
 		line_bot_api.reply_message(
 			event.reply_token,
-			TextSendMessage(text=output)
+			TextSendMessage(text='xxxxxx')
 		)
 	return 'OK'
 
