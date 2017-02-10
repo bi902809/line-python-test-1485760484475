@@ -68,7 +68,7 @@ def callback():
 			continue
 
 		print('start call watson')
-		output = callWatson(inputUserId,inputText)
+		output = callWatson(event.source.userId,event.message.text)
 
 		line_bot_api.reply_message(
 			event.reply_token,
