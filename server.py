@@ -248,8 +248,8 @@ def resendMessage(event, output):
 	if 'text' in output:
 		for x in output['text']:
 			text = text + '\n' + x
-	line_bot_api.reply_message(
-		event.reply_token,
+	line_bot_api.push_message(
+		userId,
 		TextSendMessage(text=text[1:])
 	)
 	callback()
@@ -291,25 +291,31 @@ def showIcon(event, output):
 	if 'text' in output:
 		for x in output['text']:
 			text = text + '\n' + x
-	confirm_template_message = TemplateSendMessage(
-		alt_text='Confirm template',
-		template=ConfirmTemplate(
-			text=text[1:],
+	buttons_template_message = TemplateSendMessage(
+		alt_text='Buttons template',
+		template=ButtonsTemplate(
+			thumbnail_image_url='https://example.com/image.jpg',
+			title='Menu',
+			text='Please select',
 			actions=[
 				MessageTemplateAction(
-					label='はい',
-					text='はい'
+					label='1.在庫分のみお届け',
+					text='1.在庫分のみお届け'
 				),
 				MessageTemplateAction(
-					label='いいえ',
-					text='いいえ'
+					label='2.2回に分けてお届け',
+					text='2.2回に分けてお届け'
+				),
+				MessageTemplateAction(
+					label='3.類似商品含め配達可能数をお届け',
+					text='3.類似商品含め配達可能数をお届け'
 				)
 			]
 		)
 	)
-	line_bot_api.push_message(
-		userId,
-		confirm_template_message
+	line_bot_api.reply_message(
+		event.reply_token,
+		buttons_template_message
 	)
 def showConfirmButton(event, output):
 	global userDic
@@ -319,6 +325,9 @@ def showConfirmButton(event, output):
 	if 'text' in output:
 		for x in output['text']:
 			text = text + '\n' + x
+
+
+	
 	confirm_template_message = TemplateSendMessage(
 		alt_text='Confirm template',
 		template=ConfirmTemplate(
