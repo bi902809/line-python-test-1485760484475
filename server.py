@@ -182,36 +182,53 @@ def firstAction(event, output):
 	if 'text' in output:
 		for x in output['text']:
 			text = text + '\n' + x
-	line_bot_api.reply_message(
-		event.reply_token,
-		TextSendMessage(text=text[1:])
-	)
+	print(ServerInfo.COFFEE['185']['image'])
 	carousel_template = CarouselTemplate(columns=[
 		CarouselColumn(
 			thumbnail_image_url=ServerInfo.COFFEE['185']['image'],
-			title=ServerInfo.COFFEE['185']['title'], 
-			text=ServerInfo.COFFEE['185']['price'],
+			text=ServerInfo.COFFEE['185']['price'], 
+			title=ServerInfo.COFFEE['185']['text'], 
 			actions=[
-			MessageTemplateAction(
-				label=u'購入する', 
-				text=ServerInfo.COFFEE['185']['title'] + u'が欲しい'
-			)
+			MessageTemplateAction(label='Translate Rice', text='米')
 		]),
 		CarouselColumn(
 			thumbnail_image_url=ServerInfo.COFFEE['184']['image'],
-			title=ServerInfo.COFFEE['184']['title'], 
-			text=ServerInfo.COFFEE['184']['price'],
+			text=ServerInfo.COFFEE['184']['price'], 
+			title=ServerInfo.COFFEE['184']['text'], 
 			actions=[
-			MessageTemplateAction(
-				label=u'購入する', 
-				text=ServerInfo.COFFEE['184']['title'] + u'が欲しい'
-			)
+			MessageTemplateAction(label='Translate Rice', text='米')
 		]),
 	])
 	template_message = TemplateSendMessage(
 		alt_text='Buttons alt text', template=carousel_template)
 	line_bot_api.reply_message(event.reply_token, template_message)
 	
+	carousel_template_message = TemplateSendMessage(
+		alt_text='185',
+		template=CarouselTemplate(
+			columns=[
+				CarouselColumn(
+					thumbnail_image_url=ServerInfo.COFFEE['185']['image'],
+					title=ServerInfo.COFFEE['185']['image'], 
+					text=ServerInfo.COFFEE['184']['image'],
+					actions=[
+						MessageTemplateAction(
+							label=u'購入する', 
+							text=ServerInfo.COFFEE['185']['title'] + u'が欲しい'
+						)
+					]
+				)
+			]
+		)
+	)
+	line_bot_api.reply_message(
+		event.reply_token,
+		carousel_template_message
+	)
+	line_bot_api.reply_message(
+		event.reply_token,
+		TextSendMessage(text=text[1:])
+	)
 
 if __name__ == '__main__':
 	app.run(host='0.0.0.0', port=port)
