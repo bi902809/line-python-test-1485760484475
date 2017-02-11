@@ -193,9 +193,8 @@ def firstAction(event, output):
 						text=ServerInfo.COFFEE['184']['price'],
 						actions=[
 							PostbackTemplateAction(
-								label=u'購入する',
-								text=ServerInfo.COFFEE['184']['title'] + u'が欲しい',
-								data='action=buy'
+								label=u'購入する', text=ServerInfo.COFFEE['184']['title'] + u'が欲しい',
+								data='action=buy&itemid=1'
 							)
 						]
 					)
