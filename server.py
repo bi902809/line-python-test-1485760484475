@@ -155,7 +155,8 @@ def callWatson(event):
 	headers = { 'Content-Type': 'application/json'}
 	# set login data to dictionary
 	userId = event.source.user_id
-	if userId not in userDic or event.message.text != WatsonInfo.RESETWORD:
+	if userId not in userDic or event.message.text == WatsonInfo.RESETWORD:
+		print('Reset user')
 		userDic[userId] = {}
 		body = {"userId": WatsonInfo.COFFEEUSERID,"password": WatsonInfo.COFFEEPASSWORD}
 		r = s.post(WatsonInfo.LOGINURL,data=json.dumps(body),headers=headers)
