@@ -181,10 +181,6 @@ def firstAction(event, output):
 	if 'text' in output:
 		for x in output['text']:
 			text = text + '\n' + x
-	line_bot_api.reply_message(
-		event.reply_token,
-		TextSendMessage(text=text[1:])
-	)
 	carousel_template_message = TemplateSendMessage(
 		alt_text='185',
 		template=CarouselTemplate(
@@ -206,6 +202,10 @@ def firstAction(event, output):
 	line_bot_api.reply_message(
 		event.reply_token,
 		carousel_template_message
+	)
+	line_bot_api.reply_message(
+		event.reply_token,
+		TextSendMessage(text=text[1:])
 	)
 
 if __name__ == '__main__':
