@@ -183,14 +183,6 @@ def firstAction(event, output):
 		for x in output['text']:
 			text = text + '\n' + x
 	print(ServerInfo.COFFEE['185']['image'])
-	line_bot_api.reply_message(
-		event.reply_token,
-		TextSendMessage(text=text[1:])
-	)
-	line_bot_api.push_message(
-		userId,
-		TextSendMessage(text=u'日本橋珈琲 人気のドリップ')
-	)
 
 	carousel_template = CarouselTemplate(columns=[
 		CarouselColumn(
@@ -217,6 +209,16 @@ def firstAction(event, output):
 	])
 	template_message = TemplateSendMessage(
 		alt_text='Buttons alt text', template=carousel_template)
+	line_bot_api.reply_message(
+		event.reply_token,
+		template_message
+	#	TextSendMessage(text=text[1:])
+	)
+	line_bot_api.push_message(
+		userId,
+		TextSendMessage(text=u'日本橋珈琲 人気のドリップ')
+	)
+
 	line_bot_api.push_message(
 		userId,
 		template_message
