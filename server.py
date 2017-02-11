@@ -189,7 +189,7 @@ def firstAction(event, output):
 	)
 	line_bot_api.reply_message(
 		event.reply_token,
-		TextSendMessage(text='日本橋珈琲　人気のドリップ')
+		TextSendMessage(text=u'日本橋珈琲　人気のドリップ')
 	)
 
 	carousel_template = CarouselTemplate(columns=[
