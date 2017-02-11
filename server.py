@@ -192,7 +192,7 @@ def firstAction(event, output):
 						title=ServerInfo.COFFEE['184']['image'], text=ServerInfo.COFFEE['184']['image'],
 						actions=[
 							MessageTemplateAction(
-								label=u'購入する', text=ServerInfo.COFFEE['184']['title'] + u'が欲しい',
+								label=u'購入する', text=ServerInfo.COFFEE['184']['title'] + u'が欲しい'
 							)
 						]
 					)
