@@ -27,6 +27,57 @@ parser = WebhookParser(os.getenv("LINE_CHANNEL_SECRET", "x"))
 
 userDic = {}
 
+class ServerInfo:
+	URL = 'https://line-python-test.mybluemix.net/'
+	IMAGEURL = URL + 'static/images/'
+	COFFEE = {
+		'176': {
+			'title': '日本橋ブレンド(8個入)' ,
+			'price': '' ,
+			'image': IMAGEURL + '176.png' 
+		},
+		'182': {
+			'title': 'One more THINKブレンド' ,
+			'price': '\600' ,
+			'image': IMAGEURL + '182.png' 
+		},
+		'184': {
+			'title': 'リラックスアロマ' ,
+			'price': '\800' ,
+			'image': IMAGEURL + '184.png' 
+		},
+		'185': {
+			'title': 'カプリスモカ(8個入)' ,
+			'price': '\750' ,
+			'image': IMAGEURL + '185.png' 
+		},
+		'186': {
+			'title': 'マンデリンロースト' ,
+			'price': '\800' ,
+			'image': IMAGEURL + '186.png' 
+		},
+		'187': {
+			'title': 'ブラウンサウンド(8個入)' ,
+			'price': '\600' ,
+			'image': IMAGEURL + '187.png' 
+		},
+		'188': {
+			'title': 'コーヒークリーマー' ,
+			'price': '' ,
+			'image': IMAGEURL + '188.png' 
+		},
+		'189': {
+			'title': '日本橋ドリップペーパー' ,
+			'price': '' ,
+			'image': IMAGEURL + '189.png' 
+		},
+		'201': {
+			'title': 'Other' ,
+			'price': '' ,
+			'image': IMAGEURL + '201.png' 
+		}
+	}
+
 #Parameters to get Watson Data
 class WatsonInfo:
 	URL = 'http://watson-erp-coffee.mybluemix.net/'
@@ -130,26 +181,28 @@ def firstAction(event, output):
 		event.reply_token,
 		TextSendMessage(text=text[1:])
 	)
-	carousel_template_message = TemplateSendMessage(
-		alt_text=u'カプリスモカ',
-		template=CarouselTemplate(
-			columns=[
-				CarouselColumn(
-					thumbnail_image_url='https://example.com/item1.jpg',
-					title=u'カプリスモカカプセル(8個入) ',
-					text='\750',
-					actions=[
-						PostbackTemplateAction(
-							label=u'購入する',
-							text=u'購入する',
-							data=u'購入する'
-						)
-					]
-				)
-			]
+	line_bot_api.reply_message(
+		event.reply_token,
+		TemplateSendMessage(
+			alt_text=ServerInfo.COFFEE['184']['title'],
+			template=CarouselTemplate(
+				columns=[
+					CarouselColumn(
+						thumbnail_image_url=ServerInfo.COFFEE['184']['image'],
+						title=ServerInfo.COFFEE['184']['title'],
+						text=ServerInfo.COFFEE['184']['price'],
+						actions=[
+							PostbackTemplateAction(
+								label=u'購入する',
+								text=u'購入する',
+								data=u'購入する'
+							)
+						]
+					)
+				]
+			)
 		)
 	)
-	line_bot_api.reply_message(event.reply_token, carousel_template_message)
 
 if __name__ == '__main__':
 	app.run(host='0.0.0.0', port=port)
