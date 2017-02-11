@@ -130,9 +130,26 @@ def firstAction(event, output):
 		event.reply_token,
 		TextSendMessage(text=text[1:])
 	)
-
-
-
+	carousel_template_message = TemplateSendMessage(
+		alt_text=u'カプリスモカ',
+		template=CarouselTemplate(
+			columns=[
+				CarouselColumn(
+					thumbnail_image_url='https://example.com/item1.jpg',
+					title=u'カプリスモカカプセル(8個入) ',
+					text='\750',
+					actions=[
+						PostbackTemplateAction(
+							label=u'購入する',
+							text=u'購入する',
+							data=u'購入する'
+						)
+					]
+				)
+			]
+		)
+	)
+	line_bot_api.reply_message(event.reply_token, carousel_template_message)
 
 if __name__ == '__main__':
 	app.run(host='0.0.0.0', port=port)
