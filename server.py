@@ -157,6 +157,14 @@ def callback():
 			firstAction(event, output)
 		elif userDic[userId]['nextFrontAction'] == 'showYesNo':
 			showYesNo(event, output)
+		elif userDic[userId]['nextFrontAction'] == 'resendMessage':
+			resendMessage(event, output)
+		elif userDic[userId]['nextFrontAction'] == 'showIcon':
+			showIcon(event, output)
+		elif userDic[userId]['nextFrontAction'] == 'showCrossCellOption':
+			showCrossCellOption(event, output)
+		elif userDic[userId]['nextFrontAction'] == 'showConfirmButton':
+			showConfirmButton(event, output)
 		else:
 			replyAction(event, output)
 	return 'OK'
@@ -231,6 +239,21 @@ def firstAction(event, output):
 		userId,
 		template_message
 	)
+
+def resendMessage(event, output):
+	global userDic
+	userId = event.source.user_id
+	text = ''
+	print(output)
+	if 'text' in output:
+		for x in output['text']:
+			text = text + '\n' + x
+	line_bot_api.reply_message(
+		event.reply_token,
+		TextSendMessage(text=text[1:])
+	)
+	callback()
+
 def showYesNo(event, output):
 	global userDic
 	userId = event.source.user_id
@@ -260,6 +283,91 @@ def showYesNo(event, output):
 		confirm_template_message
 	)
 	
+def showIcon(event, output):
+	global userDic
+	userId = event.source.user_id
+	text = ''
+	print(output)
+	if 'text' in output:
+		for x in output['text']:
+			text = text + '\n' + x
+	confirm_template_message = TemplateSendMessage(
+		alt_text='Confirm template',
+		template=ConfirmTemplate(
+			text=text[1:],
+			actions=[
+				MessageTemplateAction(
+					label='はい',
+					text='はい'
+				),
+				MessageTemplateAction(
+					label='いいえ',
+					text='いいえ'
+				)
+			]
+		)
+	)
+	line_bot_api.reply_message(
+		event.reply_token,
+		confirm_template_message
+	)
+def showConfirmButton(event, output):
+	global userDic
+	userId = event.source.user_id
+	text = ''
+	print(output)
+	if 'text' in output:
+		for x in output['text']:
+			text = text + '\n' + x
+	confirm_template_message = TemplateSendMessage(
+		alt_text='Confirm template',
+		template=ConfirmTemplate(
+			text=text[1:],
+			actions=[
+				MessageTemplateAction(
+					label='確定',
+					text='確定'
+				),
+				MessageTemplateAction(
+					label='キャンセル',
+					text='キャンセル'
+				)
+			]
+		)
+	)
+	line_bot_api.reply_message(
+		event.reply_token,
+		confirm_template_message
+	)
+
+def showCrossCellOption(event, output):
+	global userDic
+	userId = event.source.user_id
+	text = ''
+	print(output)
+	if 'text' in output:
+		for x in output['text']:
+			text = text + '\n' + x
+	confirm_template_message = TemplateSendMessage(
+		alt_text='Confirm template',
+		template=ConfirmTemplate(
+			text=text[1:],
+			actions=[
+				MessageTemplateAction(
+					label='購入する',
+					text='購入する'
+				),
+				MessageTemplateAction(
+					label='今回はやめておく',
+					text='今回はやめておく'
+				)
+			]
+		)
+	)
+	line_bot_api.reply_message(
+		event.reply_token,
+		confirm_template_message
+	)
 def replyAction(event, output):
 	global userDic
 	userId = event.source.user_id
