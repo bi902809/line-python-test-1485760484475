@@ -185,8 +185,6 @@ def firstAction(event, output):
 	print(ServerInfo.COFFEE['185']['image'])
 	carousel_template = CarouselTemplate(columns=[
 		CarouselColumn(text='hoge1', title='fuga1', actions=[
-			URITemplateAction(
-				label='Go to line.me', uri='https://line.me'),
 			PostbackTemplateAction(label='ping', data='ping')
 		]),
 		CarouselColumn(text='hoge2', title='fuga2', actions=[
