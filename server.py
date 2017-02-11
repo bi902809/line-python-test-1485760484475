@@ -53,7 +53,8 @@ class ServerInfo:
 			'title': 'カプリスモカ(8個入)' ,
 			'price': '￥750' ,
 			'image': IMAGEURL + '185.png', 
-			'message': '「カプリスモカ(8個入)」が欲しい'
+			#'message': '「カプリスモカ(8個入)」が欲しい'
+			'message': '「カプリスモカ」が欲しい'
 		},
 		'186': {
 			'title': 'マンデリンロースト' ,
@@ -65,7 +66,8 @@ class ServerInfo:
 			'title': 'ブラウンサウンド(8個入)' ,
 			'price': '￥600' ,
 			'image': IMAGEURL + '187.png' ,
-			'message': '「ブラウンサウンド(8個入)」が欲しい'
+			#'message': '「ブラウンサウンド(8個入)」が欲しい'
+			'message': '「ブラウンサウンド」が欲しい'
 		},
 		'188': {
 			'title': 'コーヒークリーマー' ,
@@ -153,6 +155,8 @@ def callback():
 		userId = event.source.user_id
 		if userDic[userId]['nextFrontAction'] == 'firstAction':
 			firstAction(event, output)
+		elif userDic[userId]['nextFrontAction'] == 'showYesNo':
+			firstAction(event, output)
 		else:
 			replyAction(event, output)
 	return 'OK'
@@ -194,7 +198,6 @@ def firstAction(event, output):
 	if 'text' in output:
 		for x in output['text']:
 			text = text + '\n' + x
-			break
 	type_string = '人気のドリップ'
 
 	carousel_template = CarouselTemplate(columns=[
@@ -228,6 +231,30 @@ def firstAction(event, output):
 		userId,
 		template_message
 	)
+def showYesNo(event, output):
+	global userDic
+	userId = event.source.user_id
+	text = ''
+	print(output)
+	if 'text' in output:
+		for x in output['text']:
+			text = text + '\n' + x
+	confirm_template_message = TemplateSendMessage(
+		alt_text='Confirm template',
+		template=ConfirmTemplate(
+			text=text[1:],
+			actions=[
+				MessageTemplateAction(
+					label='はい',
+					text='はい'
+				),
+				MessageTemplateAction(
+					label='いいえ',
+					text='いいえ'
+				)
+			]
+		)
+	)
 	
 def replyAction(event, output):
 	global userDic
@@ -237,7 +264,6 @@ def replyAction(event, output):
 	if 'text' in output:
 		for x in output['text']:
 			text = text + '\n' + x
-			break
 	line_bot_api.reply_message(
 		event.reply_token,
 		TextSendMessage(text=text[1:])
