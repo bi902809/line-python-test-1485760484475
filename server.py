@@ -282,8 +282,8 @@ def showYesNo(event, output):
 			]
 		)
 	)
-	line_bot_api.reply_message(
-		event.reply_token,
+	line_bot_api.push_message(
+		userId,
 		confirm_template_message
 	)
 	
