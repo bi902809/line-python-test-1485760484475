@@ -97,6 +97,7 @@ def session_management():
 @app.route('/')
 def hello_world():
 	global userDic
+	print(ServerInfo.COFFEE['185']['image'])
 
 	label=u'購入する'
 	text=ServerInfo.COFFEE['184']['title'] + u'が欲しい'
@@ -181,13 +182,14 @@ def firstAction(event, output):
 	if 'text' in output:
 		for x in output['text']:
 			text = text + '\n' + x
+	print(ServerInfo.COFFEE['185']['image'])
 	carousel_template = CarouselTemplate(columns=[
 		CarouselColumn(text='hoge1', title='fuga1', actions=[
 			URITemplateAction(
 				label='Go to line.me', uri='https://line.me'),
 			PostbackTemplateAction(label='ping', data='ping')
 		]),
-		CarouselColumn(thumbnail_image_url=ServerInfo.COFFEE['185']['image'], text='hoge2', title='fuga2', actions=[
+		CarouselColumn(text='hoge2', title='fuga2', actions=[
 			PostbackTemplateAction(
 				label='ping with text', data='ping',
 				text='ping'),
