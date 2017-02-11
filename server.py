@@ -195,7 +195,7 @@ def firstAction(event, output):
 							PostbackTemplateAction(
 								label=u'購入する',
 								text=u'購入する',
-								data=u'購入する'
+								data='action=buy'
 							)
 						]
 					)
