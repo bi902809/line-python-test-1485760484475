@@ -54,7 +54,7 @@ class ServerInfo:
 			'price': '￥750' ,
 			'image': IMAGEURL + '185.png', 
 			#'message': '「カプリスモカ(8個入)」が欲しい'
-			'message': '「カプリスモカ」が欲しい'
+			'message': 'カプリスモカ(8個入)が欲しい'
 		},
 		'186': {
 			'title': 'マンデリンロースト' ,
@@ -67,7 +67,7 @@ class ServerInfo:
 			'price': '￥600' ,
 			'image': IMAGEURL + '187.png' ,
 			#'message': '「ブラウンサウンド(8個入)」が欲しい'
-			'message': '「ブラウンサウンド」が欲しい'
+			'message': 'ブラウンサウンド(8個入)が欲しい'
 		},
 		'188': {
 			'title': 'コーヒークリーマー' ,
@@ -156,7 +156,7 @@ def callback():
 		if userDic[userId]['nextFrontAction'] == 'firstAction':
 			firstAction(event, output)
 		elif userDic[userId]['nextFrontAction'] == 'showYesNo':
-			firstAction(event, output)
+			showYesNo(event, output)
 		else:
 			replyAction(event, output)
 	return 'OK'
