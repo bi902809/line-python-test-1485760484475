@@ -184,13 +184,12 @@ def firstAction(event, output):
 	line_bot_api.reply_message(
 		event.reply_token,
 		TemplateSendMessage(
-			alt_text=ServerInfo.COFFEE['184']['title'],
+			alt_text='184',
 			template=CarouselTemplate(
 				columns=[
 					CarouselColumn(
 						thumbnail_image_url=ServerInfo.COFFEE['184']['image'],
-						title=ServerInfo.COFFEE['184']['title'],
-						text=ServerInfo.COFFEE['184']['price'],
+						title=ServerInfo.COFFEE['184']['image'], text=ServerInfo.COFFEE['184']['image'],
 						actions=[
 							PostbackTemplateAction(
 								label=u'購入する', text=ServerInfo.COFFEE['184']['title'] + u'が欲しい',
