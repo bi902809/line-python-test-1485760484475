@@ -191,9 +191,8 @@ def firstAction(event, output):
 						thumbnail_image_url=ServerInfo.COFFEE['184']['image'],
 						title=ServerInfo.COFFEE['184']['image'], text=ServerInfo.COFFEE['184']['image'],
 						actions=[
-							PostbackTemplateAction(
+							MessageTemplateAction(
 								label=u'購入する', text=ServerInfo.COFFEE['184']['title'] + u'が欲しい',
-								data='action=buy&itemid=1'
 							)
 						]
 					)
