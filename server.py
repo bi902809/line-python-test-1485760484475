@@ -33,7 +33,7 @@ class ServerInfo:
 	COFFEE = {
 		'176': {
 			'title': '日本橋ブレンド(8個入)' ,
-			'price': '' ,
+			'price': ' ' ,
 			'image': IMAGEURL + '176.png',
 			'message': '「日本橋ブレンド(8個入)」が欲しい' 
 		},
@@ -71,19 +71,19 @@ class ServerInfo:
 		},
 		'188': {
 			'title': 'コーヒークリーマー' ,
-			'price': '' ,
+			'price': ' ' ,
 			'image': IMAGEURL + '188.png', 
 			'message': '「コーヒークリーマー」が欲しい'
 		},
 		'189': {
 			'title': '日本橋ドリップペーパー' ,
-			'price': '' ,
+			'price': ' ' ,
 			'image': IMAGEURL + '189.png', 
 			'message': '「日本橋ドリップペーパー」が欲しい'
 		},
 		'201': {
 			'title': 'Other' ,
-			'price': '' ,
+			'price': ' ' ,
 			'image': IMAGEURL + '201.png',
 			'message': '「Other」が欲しい'
 		}
@@ -209,7 +209,7 @@ def firstAction(event, output):
 	if 'text' in output:
 		for x in output['text']:
 			text = text + '\n' + x
-	type_string = '人気のドリップ '
+	type_string = ''
 
 	carousel_template = CarouselTemplate(columns=[
 		CarouselColumn(
@@ -226,6 +226,13 @@ def firstAction(event, output):
 			actions=[
 			MessageTemplateAction(label=u'購入する', text=type_string + ServerInfo.COFFEE['187']['message'])
 		]),
+		CarouselColumn(
+			thumbnail_image_url=ServerInfo.COFFEE['176']['image'],
+			text=ServerInfo.COFFEE['176']['price'], 
+			title=ServerInfo.COFFEE['176']['title'], 
+			actions=[
+			MessageTemplateAction(label=u'購入する', text=type_string + ServerInfo.COFFEE['176']['message'])
+		])
 	])
 	template_message = TemplateSendMessage(
 		alt_text='Buttons alt text', template=carousel_template)
