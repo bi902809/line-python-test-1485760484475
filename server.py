@@ -98,6 +98,10 @@ def session_management():
 def hello_world():
 	global userDic
 
+	label=u'購入する'
+	text=ServerInfo.COFFEE['184']['title'] + u'が欲しい'
+	print(label)
+	print(text)
 	s = requests.Session()
 	s.auth = (WatsonInfo.WATSONUSERID, WatsonInfo.WATSONPASSWORD)
 	#body = {"userId": WatsonInfo.COFFEEUSERID,"password": WatsonInfo.COFFEEPASSWORD}
@@ -181,24 +185,27 @@ def firstAction(event, output):
 		event.reply_token,
 		TextSendMessage(text=text[1:])
 	)
+	carousel_template_message = TemplateSendMessage(
+		alt_text='185',
+		template=CarouselTemplate(
+			columns=[
+				CarouselColumn(
+					thumbnail_image_url=ServerInfo.COFFEE['185']['image'],
+					title=ServerInfo.COFFEE['185']['image'], 
+					text=ServerInfo.COFFEE['184']['image'],
+					actions=[
+						MessageTemplateAction(
+							label=u'購入する', 
+							text=ServerInfo.COFFEE['185']['title'] + u'が欲しい'
+						)
+					]
+				)
+			]
+		)
+	)
 	line_bot_api.reply_message(
 		event.reply_token,
-		TemplateSendMessage(
-			alt_text='184',
-			template=CarouselTemplate(
-				columns=[
-					CarouselColumn(
-						thumbnail_image_url=ServerInfo.COFFEE['184']['image'],
-						title=ServerInfo.COFFEE['184']['image'], text=ServerInfo.COFFEE['184']['image'],
-						actions=[
-							MessageTemplateAction(
-								label=u'購入する', text=ServerInfo.COFFEE['184']['title'] + u'が欲しい'
-							)
-						]
-					)
-				]
-			)
-		)
+		carousel_template_message
 	)
 
 if __name__ == '__main__':
