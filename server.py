@@ -187,14 +187,14 @@ def firstAction(event, output):
 		CarouselColumn(
 			thumbnail_image_url=ServerInfo.COFFEE['185']['image'],
 			text=ServerInfo.COFFEE['185']['price'], 
-			title=ServerInfo.COFFEE['185']['text'], 
+			title=ServerInfo.COFFEE['185']['title'], 
 			actions=[
 			MessageTemplateAction(label='Translate Rice', text='米')
 		]),
 		CarouselColumn(
 			thumbnail_image_url=ServerInfo.COFFEE['184']['image'],
 			text=ServerInfo.COFFEE['184']['price'], 
-			title=ServerInfo.COFFEE['184']['text'], 
+			title=ServerInfo.COFFEE['184']['title'], 
 			actions=[
 			MessageTemplateAction(label='Translate Rice', text='米')
 		]),
