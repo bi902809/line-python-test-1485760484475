@@ -184,10 +184,14 @@ def firstAction(event, output):
 			text = text + '\n' + x
 	print(ServerInfo.COFFEE['185']['image'])
 	carousel_template = CarouselTemplate(columns=[
-		CarouselColumn(text='hoge1', title='fuga1', actions=[
-			PostbackTemplateAction(label='ping', data='ping')
+		CarouselColumn(
+			thumbnail_image_url=ServerInfo.COFFEE['185']['image'],
+			text='hoge1', title='fuga1', actions=[
+			MessageTemplateAction(label='Translate Rice', text='米')
 		]),
-		CarouselColumn(text='hoge2', title='fuga2', actions=[
+		CarouselColumn(
+			thumbnail_image_url=ServerInfo.COFFEE['184']['image'],
+			text='hoge2', title='fuga2', actions=[
 			MessageTemplateAction(label='Translate Rice', text='米')
 		]),
 	])
