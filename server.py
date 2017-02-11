@@ -302,12 +302,13 @@ def showIcon(event, output):
 	if 'text' in output:
 		for x in output['text']:
 			text = text + '\n' + x
+	partNumber = userDic[userId]['item0']['partNumber']
 	buttons_template_message = TemplateSendMessage(
 		alt_text='Buttons template',
 		template=ButtonsTemplate(
-			thumbnail_image_url='https://example.com/image.jpg',
-			title='Menu',
-			text='Please select',
+			thumbnail_image_url=ServerInfo.COFFEE[partNumber]['image'],
+			text=ServerInfo.COFFEE[partNumber]['price'], 
+			title=ServerInfo.COFFEE[partNumber]['title'], 
 			actions=[
 				MessageTemplateAction(
 					label='1.在庫分のみお届け',
