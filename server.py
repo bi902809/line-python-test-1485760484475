@@ -8,7 +8,14 @@ from linebot.exceptions import (
 	InvalidSignatureError
 )
 from linebot.models import (
-	MessageEvent, TextMessage, TextSendMessage,
+    MessageEvent, TextMessage, TextSendMessage,
+    SourceUser, SourceGroup, SourceRoom,
+    TemplateSendMessage, ConfirmTemplate, MessageTemplateAction,
+    ButtonsTemplate, URITemplateAction, PostbackTemplateAction,
+    CarouselTemplate, CarouselColumn, PostbackEvent,
+    StickerMessage, StickerSendMessage, LocationMessage, LocationSendMessage,
+    ImageMessage, VideoMessage, AudioMessage,
+    UnfollowEvent, FollowEvent, JoinEvent, LeaveEvent, BeaconEvent
 )
 
 app = Flask(__name__)
@@ -24,7 +31,7 @@ userDic = {}
 class WatsonInfo:
 	URL = 'http://watson-erp-coffee.mybluemix.net/'
 	LOGINURL = URL + 'api/login'
-	MESSAGEURL = URL + 'api/login' 
+	MESSAGEURL = URL + 'api/message' 
 	WATSONUSERID = 'coguser' 
 	WATSONPASSWORD = 'watson!'
 	COFFEEUSERID = 'C00011'
@@ -39,10 +46,21 @@ def session_management():
 @app.route('/')
 def hello_world():
 	global userDic
+
+	s = requests.Session()
+	s.auth = (WatsonInfo.WATSONUSERID, WatsonInfo.WATSONPASSWORD)
+	#body = {"userId": WatsonInfo.COFFEEUSERID,"password": WatsonInfo.COFFEEPASSWORD}
+	headers = { 'Content-Type': 'application/json'}
+	config = { "customerId": "C00011", "customerNameJa": "箱崎太郎"}
+	input = { "text": ""}
+	body = {"context": config, "input": input}
+	r = s.post(WatsonInfo.MESSAGEURL,data=json.dumps(body),headers = headers)
+
+	# set login data to dictionary
 	output = ''
 	for k in userDic.keys():
 		output = output + k + '\n'
-	return 'You are not logged in' + output
+	return 'You are not logged in' + r.text
 	
 @app.route("/callback", methods=['POST'])
 def callback():
@@ -66,10 +84,10 @@ def callback():
 			continue
 		if not isinstance(event.message, TextMessage):
 			continue
-		callWatson(event)
+		output = callWatson(event)
 		userId = event.source.user_id
 		if userDic[userId]['nextFrontAction'] == 'firstAction':
-			firstAction(event)
+			firstAction(event, output)
 	return 'OK'
 
 def callWatson(event):
@@ -78,24 +96,41 @@ def callWatson(event):
 	#Watson Authentications
 	s = requests.Session()
 	s.auth = (WatsonInfo.WATSONUSERID, WatsonInfo.WATSONPASSWORD)
+	headers = { 'Content-Type': 'application/json'}
 	# set login data to dictionary
 	userId = event.source.user_id
+	output = {}
 	if userId not in userDic or event.message.text != WatsonInfo.RESETWORD:
 		userDic[userId] = {}
 		body = {"userId": WatsonInfo.COFFEEUSERID,"password": WatsonInfo.COFFEEPASSWORD}
-		r = s.post(WatsonInfo.LOGINURL,data=body)
+		r = s.post(WatsonInfo.LOGINURL,data=json.dumps(body),headers=headers)
 		result = json.loads(r.text)
 		userDic[userId] = result['context']
 		userDic[userId]['nextFrontAction'] = 'firstAction'
+	else:
+		body = { 'context' : userDic[userId], 'input' : { 'text' : event.message.text }}
+		r = s.post(WatsonInfo.MESSAGEURL,data=json.dumps(body),headers=headers)
+		result = json.loads(r.text)
+		userDic[userId] = result['context']
+		try:
+			output = result['output']
+		except:
+			print('no output')
+	return output
 
-def firstAction(event):
+
+def firstAction(event, output):
 	global userDic
 	userId = event.source.user_id
-	output = u'こんにちは、' + userDic[userId]['customerNameJa'] + u'様。香りでコーヒーを選んでみるのも良いですね。どのようなご用件でしょうか？'
+	text = ''
+	if 'text' in output:
+		text = output['text']
 	line_bot_api.reply_message(
 		event.reply_token,
-		TextSendMessage(text=output)
+		TextSendMessage(text=text)
 	)
+
+
 
 
 if __name__ == '__main__':
