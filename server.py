@@ -38,22 +38,22 @@ class ServerInfo:
 		},
 		'182': {
 			'title': 'One more THINKブレンド' ,
-			'price': '\\600' ,
+			'price': '￥600' ,
 			'image': IMAGEURL + '182.png' 
 		},
 		'184': {
 			'title': 'リラックスアロマ' ,
-			'price': '\\800' ,
+			'price': '￥800' ,
 			'image': IMAGEURL + '184.png' 
 		},
 		'185': {
 			'title': 'カプリスモカ(8個入)' ,
-			'price': '\\750' ,
+			'price': '￥750' ,
 			'image': IMAGEURL + '185.png' 
 		},
 		'186': {
 			'title': 'マンデリンロースト' ,
-			'price': '\\800' ,
+			'price': '￥800' ,
 			'image': IMAGEURL + '186.png' 
 		},
 		'187': {
@@ -183,52 +183,41 @@ def firstAction(event, output):
 		for x in output['text']:
 			text = text + '\n' + x
 	print(ServerInfo.COFFEE['185']['image'])
+	line_bot_api.reply_message(
+		event.reply_token,
+		TextSendMessage(text=text[1:])
+	)
+	line_bot_api.reply_message(
+		event.reply_token,
+		TextSendMessage(text='日本橋珈琲　人気のドリップ')
+	)
 	carousel_template = CarouselTemplate(columns=[
 		CarouselColumn(
 			thumbnail_image_url=ServerInfo.COFFEE['185']['image'],
 			text=ServerInfo.COFFEE['185']['price'], 
 			title=ServerInfo.COFFEE['185']['title'], 
 			actions=[
-			MessageTemplateAction(label='Translate Rice', text='米')
+			MessageTemplateAction(label=u'購入する', text=ServerInfo.COFFEE['185']['title'] + u'が欲しい')
 		]),
 		CarouselColumn(
-			thumbnail_image_url=ServerInfo.COFFEE['184']['image'],
-			text=ServerInfo.COFFEE['184']['price'], 
-			title=ServerInfo.COFFEE['184']['title'], 
+			thumbnail_image_url=ServerInfo.COFFEE['187']['image'],
+			text=ServerInfo.COFFEE['187']['price'], 
+			title=ServerInfo.COFFEE['187']['title'], 
 			actions=[
-			MessageTemplateAction(label=u'購入する', text=ServerInfo.COFFEE['185']['title'] + u'が欲しい')
+			MessageTemplateAction(label=u'購入する', text=ServerInfo.COFFEE['187']['title'] + u'が欲しい')
+		]),
+		CarouselColumn(
+			thumbnail_image_url=ServerInfo.COFFEE['176']['image'],
+			text=ServerInfo.COFFEE['176']['price'], 
+			title=ServerInfo.COFFEE['176']['title'], 
+			actions=[
+			MessageTemplateAction(label=u'購入する', text=ServerInfo.COFFEE['176']['title'] + u'が欲しい')
 		]),
 	])
 	template_message = TemplateSendMessage(
 		alt_text='Buttons alt text', template=carousel_template)
 	line_bot_api.reply_message(event.reply_token, template_message)
 	
-	carousel_template_message = TemplateSendMessage(
-		alt_text='185',
-		template=CarouselTemplate(
-			columns=[
-				CarouselColumn(
-					thumbnail_image_url=ServerInfo.COFFEE['185']['image'],
-					title=ServerInfo.COFFEE['185']['image'], 
-					text=ServerInfo.COFFEE['184']['image'],
-					actions=[
-						MessageTemplateAction(
-							label=u'購入する', 
-							text=ServerInfo.COFFEE['185']['title'] + u'が欲しい'
-						)
-					]
-				)
-			]
-		)
-	)
-	line_bot_api.reply_message(
-		event.reply_token,
-		carousel_template_message
-	)
-	line_bot_api.reply_message(
-		event.reply_token,
-		TextSendMessage(text=text[1:])
-	)
 
 if __name__ == '__main__':
 	app.run(host='0.0.0.0', port=port)
