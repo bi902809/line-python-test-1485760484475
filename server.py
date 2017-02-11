@@ -255,6 +255,7 @@ def resendMessage(event, output):
 		userId,
 		TextSendMessage(text=text[1:])
 	)
+	event.message.text = 'resend'
 	execution(event)
 
 def showYesNo(event, output):
