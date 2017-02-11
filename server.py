@@ -339,7 +339,7 @@ def showConfirmButton(event, output):
 			actions=[
 				MessageTemplateAction(
 					label='確定',
-					text='確定'
+					text='finalorder'
 				),
 				MessageTemplateAction(
 					label='キャンセル',
