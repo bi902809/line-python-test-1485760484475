@@ -58,7 +58,7 @@ class ServerInfo:
 		},
 		'187': {
 			'title': 'ブラウンサウンド(8個入)' ,
-			'price': '\\600' ,
+			'price': '￥600' ,
 			'image': IMAGEURL + '187.png' 
 		},
 		'188': {
@@ -204,8 +204,7 @@ def firstAction(event, output):
 		alt_text='Buttons alt text', template=carousel_template)
 	line_bot_api.reply_message(
 		event.reply_token,
-		template_message
-	#	TextSendMessage(text=text[1:])
+		TextSendMessage(text=text[1:])
 	)
 	line_bot_api.push_message(
 		userId,
