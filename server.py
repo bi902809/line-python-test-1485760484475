@@ -99,23 +99,22 @@ def callWatson(event):
 	headers = { 'Content-Type': 'application/json'}
 	# set login data to dictionary
 	userId = event.source.user_id
-	output = {}
 	if userId not in userDic or event.message.text != WatsonInfo.RESETWORD:
 		userDic[userId] = {}
 		body = {"userId": WatsonInfo.COFFEEUSERID,"password": WatsonInfo.COFFEEPASSWORD}
 		r = s.post(WatsonInfo.LOGINURL,data=json.dumps(body),headers=headers)
 		result = json.loads(r.text)
 		userDic[userId] = result['context']
-		userDic[userId]['nextFrontAction'] = 'firstAction'
-	else:
-		body = { 'context' : userDic[userId], 'input' : { 'text' : event.message.text }}
-		r = s.post(WatsonInfo.MESSAGEURL,data=json.dumps(body),headers=headers)
-		result = json.loads(r.text)
-		userDic[userId] = result['context']
-		try:
-			output = result['output']
-		except:
-			print('no output')
+	body = { 'context' : userDic[userId], 'input' : { 'text' : event.message.text }}
+	r = s.post(WatsonInfo.MESSAGEURL,data=json.dumps(body),headers=headers)
+	result = json.loads(r.text)
+	print(result)
+	userDic[userId] = result['context']
+	try:
+		output = result['output']
+	except:
+		output = {}
+		print('no output')
 	return output
 
 
