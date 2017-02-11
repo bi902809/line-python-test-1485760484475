@@ -34,47 +34,56 @@ class ServerInfo:
 		'176': {
 			'title': '日本橋ブレンド(8個入)' ,
 			'price': '' ,
-			'image': IMAGEURL + '176.png' 
+			'image': IMAGEURL + '176.png',
+			'message': '「日本橋ブレンド(8個入)」が欲しい' 
 		},
 		'182': {
 			'title': 'One more THINKブレンド' ,
 			'price': '￥600' ,
-			'image': IMAGEURL + '182.png' 
+			'image': IMAGEURL + '182.png', 
+			'message': '「One more THINKブレンド」が欲しい'
 		},
 		'184': {
 			'title': 'リラックスアロマ' ,
 			'price': '￥800' ,
-			'image': IMAGEURL + '184.png' 
+			'image': IMAGEURL + '184.png', 
+			'message': '「リラックスアロマ」が欲しい'
 		},
 		'185': {
 			'title': 'カプリスモカ(8個入)' ,
 			'price': '￥750' ,
-			'image': IMAGEURL + '185.png' 
+			'image': IMAGEURL + '185.png', 
+			'message': '「カプリスモカ(8個入)」が欲しい'
 		},
 		'186': {
 			'title': 'マンデリンロースト' ,
 			'price': '￥800' ,
-			'image': IMAGEURL + '186.png' 
+			'image': IMAGEURL + '186.png',
+			'message': '「マンデリンロースト」が欲しい'
 		},
 		'187': {
 			'title': 'ブラウンサウンド(8個入)' ,
 			'price': '￥600' ,
-			'image': IMAGEURL + '187.png' 
+			'image': IMAGEURL + '187.png' ,
+			'message': '「ブラウンサウンド(8個入)」が欲しい'
 		},
 		'188': {
 			'title': 'コーヒークリーマー' ,
 			'price': '' ,
-			'image': IMAGEURL + '188.png' 
+			'image': IMAGEURL + '188.png', 
+			'message': '「コーヒークリーマー」が欲しい'
 		},
 		'189': {
 			'title': '日本橋ドリップペーパー' ,
 			'price': '' ,
-			'image': IMAGEURL + '189.png' 
+			'image': IMAGEURL + '189.png', 
+			'message': '「日本橋ドリップペーパー」が欲しい'
 		},
 		'201': {
 			'title': 'Other' ,
 			'price': '' ,
-			'image': IMAGEURL + '201.png' 
+			'image': IMAGEURL + '201.png',
+			'message': '「Other」が欲しい'
 		}
 	}
 
@@ -144,6 +153,8 @@ def callback():
 		userId = event.source.user_id
 		if userDic[userId]['nextFrontAction'] == 'firstAction':
 			firstAction(event, output)
+		else:
+			replyAction(event, output)
 	return 'OK'
 
 def callWatson(event):
@@ -183,7 +194,7 @@ def firstAction(event, output):
 	if 'text' in output:
 		for x in output['text']:
 			text = text + '\n' + x
-	print(ServerInfo.COFFEE['185']['image'])
+	type_string = '人気のドリップ'
 
 	carousel_template = CarouselTemplate(columns=[
 		CarouselColumn(
@@ -191,14 +202,14 @@ def firstAction(event, output):
 			text=ServerInfo.COFFEE['185']['price'], 
 			title=ServerInfo.COFFEE['185']['title'], 
 			actions=[
-			MessageTemplateAction(label=u'購入する', text=ServerInfo.COFFEE['185']['title'] + u'が欲しい')
+			MessageTemplateAction(label=u'購入する', text=type_string + ServerInfo.COFFEE['185']['message'])
 		]),
 		CarouselColumn(
 			thumbnail_image_url=ServerInfo.COFFEE['187']['image'],
 			text=ServerInfo.COFFEE['187']['price'], 
 			title=ServerInfo.COFFEE['187']['title'], 
 			actions=[
-			MessageTemplateAction(label=u'購入する', text=ServerInfo.COFFEE['187']['title'] + u'が欲しい')
+			MessageTemplateAction(label=u'購入する', text=type_string + ServerInfo.COFFEE['187']['message'])
 		]),
 	])
 	template_message = TemplateSendMessage(
@@ -217,6 +228,18 @@ def firstAction(event, output):
 		template_message
 	)
 	
+def replyAction(event, output):
+	global userDic
+	userId = event.source.user_id
+	text = ''
+	print(output)
+	if 'text' in output:
+		for x in output['text']:
+			text = text + '\n' + x
+	line_bot_api.reply_message(
+		event.reply_token,
+		TextSendMessage(text=text[1:])
+	)
 
 if __name__ == '__main__':
 	app.run(host='0.0.0.0', port=port)
