@@ -191,6 +191,7 @@ def firstAction(event, output):
 		event.reply_token,
 		TextSendMessage(text='日本橋珈琲　人気のドリップ')
 	)
+
 	carousel_template = CarouselTemplate(columns=[
 		CarouselColumn(
 			thumbnail_image_url=ServerInfo.COFFEE['185']['image'],
