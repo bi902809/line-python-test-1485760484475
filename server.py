@@ -190,9 +190,6 @@ def firstAction(event, output):
 			PostbackTemplateAction(label='ping', data='ping')
 		]),
 		CarouselColumn(text='hoge2', title='fuga2', actions=[
-			PostbackTemplateAction(
-				label='ping with text', data='ping',
-				text='ping'),
 			MessageTemplateAction(label='Translate Rice', text='米')
 		]),
 	])
