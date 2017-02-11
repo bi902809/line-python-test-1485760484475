@@ -38,27 +38,27 @@ class ServerInfo:
 		},
 		'182': {
 			'title': 'One more THINKブレンド' ,
-			'price': '\600' ,
+			'price': '\\600' ,
 			'image': IMAGEURL + '182.png' 
 		},
 		'184': {
 			'title': 'リラックスアロマ' ,
-			'price': '\800' ,
+			'price': '\\800' ,
 			'image': IMAGEURL + '184.png' 
 		},
 		'185': {
 			'title': 'カプリスモカ(8個入)' ,
-			'price': '\750' ,
+			'price': '\\750' ,
 			'image': IMAGEURL + '185.png' 
 		},
 		'186': {
 			'title': 'マンデリンロースト' ,
-			'price': '\800' ,
+			'price': '\\800' ,
 			'image': IMAGEURL + '186.png' 
 		},
 		'187': {
 			'title': 'ブラウンサウンド(8個入)' ,
-			'price': '\600' ,
+			'price': '\\600' ,
 			'image': IMAGEURL + '187.png' 
 		},
 		'188': {
@@ -196,7 +196,7 @@ def firstAction(event, output):
 			text=ServerInfo.COFFEE['184']['price'], 
 			title=ServerInfo.COFFEE['184']['title'], 
 			actions=[
-			MessageTemplateAction(label='Translate Rice', text='米')
+			MessageTemplateAction(label=u'購入する', text=ServerInfo.COFFEE['185']['title'] + u'が欲しい')
 		]),
 	])
 	template_message = TemplateSendMessage(
