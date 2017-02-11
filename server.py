@@ -198,7 +198,7 @@ def firstAction(event, output):
 	if 'text' in output:
 		for x in output['text']:
 			text = text + '\n' + x
-	type_string = '人気のドリップ'
+	type_string = '人気のドリップ '
 
 	carousel_template = CarouselTemplate(columns=[
 		CarouselColumn(
@@ -254,6 +254,10 @@ def showYesNo(event, output):
 				)
 			]
 		)
+	)
+	line_bot_api.reply_message(
+		event.reply_token,
+		confirm_template_message
 	)
 	
 def replyAction(event, output):
