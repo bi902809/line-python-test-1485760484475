@@ -35,7 +35,8 @@ class ServerInfo:
 			'title': '日本橋ブレンド(8個入)' ,
 			'price': ' ' ,
 			'image': IMAGEURL + '176.png',
-			'message': '「日本橋ブレンド(8個入)」が欲しい' 
+			#'message': '「日本橋ブレンド(8個入)」が欲しい' 
+			'message': '「日本橋ブレンド」が欲しい' 
 		},
 		'182': {
 			'title': 'One more THINKブレンド' ,
@@ -302,7 +303,7 @@ def showIcon(event, output):
 	if 'text' in output:
 		for x in output['text']:
 			text = text + '\n' + x
-	partNumber = userDic[userId]['item0']['partNumber']
+	partNumber = userDic[userId]['order']['item0']['partNumber']
 	buttons_template_message = TemplateSendMessage(
 		alt_text='Buttons template',
 		template=ButtonsTemplate(
