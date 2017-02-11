@@ -187,8 +187,7 @@ def firstAction(event, output):
 		event.reply_token,
 		TextSendMessage(text=text[1:])
 	)
-	line_bot_api.reply_message(
-		event.reply_token,
+	line_bot_api.push_message('to', 
 		TextSendMessage(text=u'日本橋珈琲 人気のドリップ')
 	)
 
@@ -217,7 +216,7 @@ def firstAction(event, output):
 	])
 	template_message = TemplateSendMessage(
 		alt_text='Buttons alt text', template=carousel_template)
-	line_bot_api.reply_message(event.reply_token, template_message)
+	line_bot_api.push_message('to', template_message)
 	
 
 if __name__ == '__main__':
