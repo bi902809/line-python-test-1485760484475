@@ -199,13 +199,6 @@ def firstAction(event, output):
 			actions=[
 			MessageTemplateAction(label=u'購入する', text=ServerInfo.COFFEE['187']['title'] + u'が欲しい')
 		]),
-		CarouselColumn(
-			thumbnail_image_url=ServerInfo.COFFEE['176']['image'],
-			text=ServerInfo.COFFEE['176']['price'], 
-			title=ServerInfo.COFFEE['176']['title'], 
-			actions=[
-			MessageTemplateAction(label=u'購入する', text=ServerInfo.COFFEE['176']['title'] + u'が欲しい')
-		])
 	])
 	template_message = TemplateSendMessage(
 		alt_text='Buttons alt text', template=carousel_template)
