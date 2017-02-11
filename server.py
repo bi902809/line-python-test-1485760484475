@@ -303,6 +303,10 @@ def showIcon(event, output):
 	if 'text' in output:
 		for x in output['text']:
 			text = text + '\n' + x
+	line_bot_api.reply_message(
+		event.reply_token,
+		TextSendMessage(text=text[1:])
+	)
 	partNumber = userDic[userId]['order']['item0']['partNumber']
 	buttons_template_message = TemplateSendMessage(
 		alt_text='Buttons template',
@@ -326,8 +330,8 @@ def showIcon(event, output):
 			]
 		)
 	)
-	line_bot_api.reply_message(
-		event.reply_token,
+	line_bot_api.push_message(
+		userId,
 		buttons_template_message
 	)
 def showConfirmButton(event, output):
@@ -338,9 +342,6 @@ def showConfirmButton(event, output):
 	if 'text' in output:
 		for x in output['text']:
 			text = text + '\n' + x
-
-
-	
 	confirm_template_message = TemplateSendMessage(
 		alt_text='Confirm template',
 		template=ConfirmTemplate(
@@ -370,10 +371,6 @@ def showCrossCellOption(event, output):
 	if 'text' in output:
 		for x in output['text']:
 			text = text + '\n' + x
-	line_bot_api.reply_message(
-		event.reply_token,
-		TextSendMessage(text=text[1:])
-	)
 	confirm_template_message = TemplateSendMessage(
 		alt_text='Confirm template',
 		template=ConfirmTemplate(
@@ -390,8 +387,8 @@ def showCrossCellOption(event, output):
 			]
 		)
 	)
-	line_bot_api.push_message(
-		userId,
+	line_bot_api.reply_message(
+		event.reply_token,
 		confirm_template_message
 	)
 def replyAction(event, output):
