@@ -124,8 +124,8 @@ def firstAction(event, output):
 	text = ''
 	print(output)
 	if 'text' in output:
-		for x in output['text']
-		text = text + '\n' + x
+		for x in output['text']:
+			text = text + '\n' + x
 	line_bot_api.reply_message(
 		event.reply_token,
 		TextSendMessage(text=text[1:])
