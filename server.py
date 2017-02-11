@@ -213,7 +213,7 @@ def firstAction(event, output):
 			title=ServerInfo.COFFEE['176']['title'], 
 			actions=[
 			MessageTemplateAction(label=u'購入する', text=ServerInfo.COFFEE['176']['title'] + u'が欲しい')
-		]),
+		])
 	])
 	template_message = TemplateSendMessage(
 		alt_text='Buttons alt text', template=carousel_template)
