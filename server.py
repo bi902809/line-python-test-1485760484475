@@ -54,7 +54,7 @@ class ServerInfo:
 			'price': '￥750' ,
 			'image': IMAGEURL + '185.png', 
 			#'message': '「カプリスモカ(8個入)」が欲しい'
-			'message': 'カプリスモカ(8個入)が欲しい'
+			'message': '「カプリスモカ」が欲しい'
 		},
 		'186': {
 			'title': 'マンデリンロースト' ,
@@ -67,7 +67,7 @@ class ServerInfo:
 			'price': '￥600' ,
 			'image': IMAGEURL + '187.png' ,
 			#'message': '「ブラウンサウンド(8個入)」が欲しい'
-			'message': 'ブラウンサウンド(8個入)が欲しい'
+			'message': '「ブラウンサウンド」が欲しい'
 		},
 		'188': {
 			'title': 'コーヒークリーマー' ,
@@ -151,23 +151,26 @@ def callback():
 			continue
 		if not isinstance(event.message, TextMessage):
 			continue
-		output = callWatson(event)
-		userId = event.source.user_id
-		if userDic[userId]['nextFrontAction'] == 'firstAction':
-			firstAction(event, output)
-		elif userDic[userId]['nextFrontAction'] == 'showYesNo':
-			showYesNo(event, output)
-		elif userDic[userId]['nextFrontAction'] == 'resendMessage':
-			resendMessage(event, output)
-		elif userDic[userId]['nextFrontAction'] == 'showIcon':
-			showIcon(event, output)
-		elif userDic[userId]['nextFrontAction'] == 'showCrossCellOption':
-			showCrossCellOption(event, output)
-		elif userDic[userId]['nextFrontAction'] == 'showConfirmButton':
-			showConfirmButton(event, output)
-		else:
-			replyAction(event, output)
+		execution(event)
 	return 'OK'
+
+def execution(event):
+	output = callWatson(event)
+	userId = event.source.user_id
+	if userDic[userId]['nextFrontAction'] == 'firstAction':
+		firstAction(event, output)
+	elif userDic[userId]['nextFrontAction'] == 'showYesNo':
+		showYesNo(event, output)
+	elif userDic[userId]['nextFrontAction'] == 'resendMessage':
+		resendMessage(event, output)
+	elif userDic[userId]['nextFrontAction'] == 'showIcon':
+		showIcon(event, output)
+	elif userDic[userId]['nextFrontAction'] == 'showCrossCellOption':
+		showCrossCellOption(event, output)
+	elif userDic[userId]['nextFrontAction'] == 'showConfirmButton':
+		showConfirmButton(event, output)
+	else:
+		replyAction(event, output)
 
 def callWatson(event):
 	global userDic
@@ -252,7 +255,7 @@ def resendMessage(event, output):
 		userId,
 		TextSendMessage(text=text[1:])
 	)
-	callback()
+	execution(event)
 
 def showYesNo(event, output):
 	global userDic
