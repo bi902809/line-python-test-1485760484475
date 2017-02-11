@@ -181,26 +181,15 @@ def firstAction(event, output):
 	if 'text' in output:
 		for x in output['text']:
 			text = text + '\n' + x
-	carousel_template = CarouselTemplate(columns=[
-		CarouselColumn(text='hoge1', title='fuga1', actions=[
-			URITemplateAction(
-				label='Go to line.me', uri='https://line.me'),
-			PostbackTemplateAction(label='ping', data='ping')
-		]),
-		CarouselColumn(thumbnail_image_url=ServerInfo.COFFEE['185']['image'],text='hoge2', title='fuga2', actions=[
-			MessageTemplateAction(label='Translate Rice', text='米')
-		]),
-	])
-	template_message = TemplateSendMessage(
-		alt_text='Buttons alt text', template=carousel_template)
-	line_bot_api.reply_message(event.reply_token, template_message)
-	
+	line_bot_api.reply_message(
+		event.reply_token,
+		TextSendMessage(text=text[1:])
+	)
 	carousel_template_message = TemplateSendMessage(
 		alt_text='185',
 		template=CarouselTemplate(
 			columns=[
 				CarouselColumn(
-					thumbnail_image_url=ServerInfo.COFFEE['185']['image'],
 					title=ServerInfo.COFFEE['185']['image'], 
 					text=ServerInfo.COFFEE['184']['image'],
 					actions=[
@@ -216,10 +205,6 @@ def firstAction(event, output):
 	line_bot_api.reply_message(
 		event.reply_token,
 		carousel_template_message
-	)
-	line_bot_api.reply_message(
-		event.reply_token,
-		TextSendMessage(text=text[1:])
 	)
 
 if __name__ == '__main__':
