@@ -187,10 +187,7 @@ def firstAction(event, output):
 				label='Go to line.me', uri='https://line.me'),
 			PostbackTemplateAction(label='ping', data='ping')
 		]),
-		CarouselColumn(text='hoge2', title='fuga2', actions=[
-			PostbackTemplateAction(
-				label='ping with text', data='ping',
-				text='ping'),
+		CarouselColumn(thumbnail_image_url=ServerInfo.COFFEE['185']['image'],text='hoge2', title='fuga2', actions=[
 			MessageTemplateAction(label='Translate Rice', text='米')
 		]),
 	])
