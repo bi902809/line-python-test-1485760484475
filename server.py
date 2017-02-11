@@ -32,8 +32,8 @@ class ServerInfo:
 	IMAGEURL = URL + 'static/images/'
 	COFFEE = {
 		'176': {
-			'title': '日本橋ブレンド(8個入)' ,
-			'price': ' ' ,
+			'title': '日本橋ブレンドカプセル(8個入)' ,
+			'price': '￥590' ,
 			'image': IMAGEURL + '176.png',
 			#'message': '「日本橋ブレンド(8個入)」が欲しい' 
 			'message': '「日本橋ブレンド」が欲しい' 
@@ -51,7 +51,7 @@ class ServerInfo:
 			'message': '「リラックスアロマ」が欲しい'
 		},
 		'185': {
-			'title': 'カプリスモカ(8個入)' ,
+			'title': 'カプリスモカカプセル(8個入)' ,
 			'price': '￥750' ,
 			'image': IMAGEURL + '185.png', 
 			#'message': '「カプリスモカ(8個入)」が欲しい'
@@ -64,7 +64,7 @@ class ServerInfo:
 			'message': '「マンデリンロースト」が欲しい'
 		},
 		'187': {
-			'title': 'ブラウンサウンド(8個入)' ,
+			'title': 'ブラウンサウンドカプセル(8個入)' ,
 			'price': '￥600' ,
 			'image': IMAGEURL + '187.png' ,
 			#'message': '「ブラウンサウンド(8個入)」が欲しい'
