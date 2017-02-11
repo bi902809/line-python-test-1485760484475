@@ -123,8 +123,9 @@ def firstAction(event, output):
 	global userDic
 	userId = event.source.user_id
 	text = ''
+	print(output)
 	if 'text' in output:
-		text = output['text']
+		text = str(output['text'])
 	line_bot_api.reply_message(
 		event.reply_token,
 		TextSendMessage(text=text)
