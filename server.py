@@ -370,6 +370,10 @@ def showCrossCellOption(event, output):
 	if 'text' in output:
 		for x in output['text']:
 			text = text + '\n' + x
+	line_bot_api.reply_message(
+		event.reply_token,
+		TextSendMessage(text=text[1:])
+	)
 	confirm_template_message = TemplateSendMessage(
 		alt_text='Confirm template',
 		template=ConfirmTemplate(
@@ -386,8 +390,8 @@ def showCrossCellOption(event, output):
 			]
 		)
 	)
-	line_bot_api.reply_message(
-		event.reply_token,
+	line_bot_api.push_message(
+		userId,
 		confirm_template_message
 	)
 def replyAction(event, output):
