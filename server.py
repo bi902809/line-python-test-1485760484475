@@ -255,8 +255,7 @@ def firstAction(event, output):
 	)
 	line_bot_api.reply_message(
 		event.reply_token,
-
-		ImageMessage(text=text)
+		image_message_template
 	)
 	line_bot_api.push_message(
 		userId,
