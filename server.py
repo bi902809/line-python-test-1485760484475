@@ -151,15 +151,19 @@ def callback():
 		abort(400)
 	# if event is MessageEvent and message is TextMessage, then echo text
 	for event in events:
-		if not isinstance(event, MessageEvent):
+		if isinstance(event, MessageEvent):
+			if isinstance(event.message, TextMessage):
+				execution(event, event.message.text)
+			else:
+				continue
+		elif isinstance(event, PostbackEvent): 
+			execution(event, event.postback.data)
+		else:
 			continue
-		if not isinstance(event.message, TextMessage):
-			continue
-		execution(event)
 	return 'OK'
 
-def execution(event):
-	output = callWatson(event)
+def execution(event, text):
+	output = callWatson(event, text)
 	userId = event.source.user_id
 	if userDic[userId]['nextFrontAction'] == 'firstAction':
 		firstAction(event, output)
@@ -176,7 +180,7 @@ def execution(event):
 	else:
 		replyAction(event, output)
 
-def callWatson(event):
+def callWatson(event, text):
 	global userDic
 	print('start call watson')
 	#Watson Authentications
@@ -185,14 +189,14 @@ def callWatson(event):
 	headers = { 'Content-Type': 'application/json'}
 	# set login data to dictionary
 	userId = event.source.user_id
-	if userId not in userDic or event.message.text == WatsonInfo.RESETWORD:
+	if userId not in userDic or text == WatsonInfo.RESETWORD:
 		print('Reset user')
 		userDic[userId] = {}
 		body = {"userId": WatsonInfo.COFFEEUSERID,"password": WatsonInfo.COFFEEPASSWORD}
 		r = s.post(WatsonInfo.LOGINURL,data=json.dumps(body),headers=headers)
 		result = json.loads(r.text)
 		userDic[userId] = result['context']
-	body = { 'context' : userDic[userId], 'input' : { 'text' : event.message.text }}
+	body = { 'context' : userDic[userId], 'input' : { 'text' : text }}
 	r = s.post(WatsonInfo.MESSAGEURL,data=json.dumps(body),headers=headers)
 	result = json.loads(r.text)
 	print(result)
@@ -268,8 +272,7 @@ def resendMessage(event, output):
 		userId,
 		TextSendMessage(text=text)
 	)
-	event.message.text = 'resend'
-	execution(event)
+	execution(event, 'resend')
 
 def showYesNo(event, output):
 	global userDic
@@ -314,7 +317,7 @@ def showIcon(event, output):
 		event.reply_token,
 		TextSendMessage(text=text)
 	)
-	partNumber = userDic[userId]['order']['item0']['partNumber']
+	partNumber = userDic[userId]['proposeAlternative']['partNumber']
 	buttons_template_message = TemplateSendMessage(
 		alt_text='Buttons template',
 		template=ButtonsTemplate(
@@ -331,8 +334,8 @@ def showIcon(event, output):
 					text='2.2回に分けてお届け'
 				),
 				MessageTemplateAction(
-					label='3.類似商品含め配達可能数をお届け',
-					text='3.類似商品含め配達可能数をお届け'
+					label='3.類似商品含めてお届け',
+					text='3.類似商品含めてお届け'
 				)
 			]
 		)
@@ -355,9 +358,10 @@ def showConfirmButton(event, output):
 		template=ConfirmTemplate(
 			text=text,
 			actions=[
-				MessageTemplateAction(
+				PostbackTemplateAction(
 					label='確定',
-					text='finalorder'
+					text='確定'
+					data='finalorder'
 				),
 				MessageTemplateAction(
 					label='キャンセル',
