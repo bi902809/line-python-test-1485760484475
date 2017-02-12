@@ -30,6 +30,7 @@ userDic = {}
 class ServerInfo:
 	URL = 'https://line-python-test.mybluemix.net/'
 	IMAGEURL = URL + 'static/icons/'
+	LOGOURL = URL + 'static/images/NHcoffee1-logoJs_brown.png'
 	RESETWORD = u'こんにちは'
 	EXCEPTIONWORDS = ['確定']
 	COFFEE = {
@@ -38,8 +39,8 @@ class ServerInfo:
 			'price': '￥590' ,
 			'image': IMAGEURL + '176.png',
 			#'message': '「日本橋ブレンド(8個入)」が欲しい' 
-			'message': '「日本橋ブレンド ーカプセル (8個入り)」が欲しい' 
-			#'message': '「日本橋ブレンド」が欲しい' 
+			#'message': '「日本橋ブレンド ーカプセル (8個入り)」が欲しい' 
+			'message': '「日本橋ブレンド」が欲しい' 
 		},
 		'182': {
 			'title': 'One more THINKブレンド' ,
@@ -58,8 +59,8 @@ class ServerInfo:
 			'price': '￥750' ,
 			'image': IMAGEURL + '185.png', 
 			#'message': '「カプリスモカ(8個入)」が欲しい'
-			#'message': '「カプリスモカ」が欲しい'
-			'message': '「カプリスモカ ーカプセル (8個入り)」が欲しい'
+			'message': '「カプリスモカ」が欲しい'
+			#'message': '「カプリスモカ ーカプセル (8個入り)」が欲しい'
 		},
 		'186': {
 			'title': 'マンデリンロースト' ,
@@ -72,8 +73,8 @@ class ServerInfo:
 			'price': '￥600' ,
 			'image': IMAGEURL + '187.png' ,
 			#'message': '「ブラウンサウンド(8個入)」が欲しい'
-			#'message': '「ブラウンサウンド」が欲しい'
-			'message': '「ブラウンサウンド ーカプセル (8個入り)」が欲しい'
+			'message': '「ブラウンサウンド」が欲しい'
+			#'message': '「ブラウンサウンド ーカプセル (8個入り)」が欲しい'
 		},
 		'188': {
 			'title': 'コーヒークリーマー' ,
@@ -246,9 +247,19 @@ def firstAction(event, output):
 		])
 	])
 	template_message = TemplateSendMessage(
-		alt_text='Buttons alt text', template=carousel_template)
+		alt_text='こんにちは',
+		template=carousel_template)
+	image_message_template = ImageSendMessage(
+		original_content_url=ServerInfo.LOGOURL,
+		preview_image_url=ServerInfo.LOGOURL
+	)
 	line_bot_api.reply_message(
 		event.reply_token,
+
+		ImageMessage(text=text)
+	)
+	line_bot_api.push_message(
+		userId,
 		TextSendMessage(text=text)
 	)
 	line_bot_api.push_message(
@@ -286,7 +297,7 @@ def showYesNo(event, output):
 			text = text + '\n' + x
 	text = text[1:].replace('<br>','\n')
 	confirm_template_message = TemplateSendMessage(
-		alt_text='Confirm template',
+		alt_text='確認',
 		template=ConfirmTemplate(
 			text=text,
 			actions=[
@@ -321,7 +332,7 @@ def showIcon(event, output):
 	)
 	partNumber = userDic[userId]['proposeAlternative']['partNumber']
 	buttons_template_message = TemplateSendMessage(
-		alt_text='Buttons template',
+		alt_text='代替商品',
 		template=ButtonsTemplate(
 			thumbnail_image_url=ServerInfo.COFFEE[partNumber]['image'],
 			text=ServerInfo.COFFEE[partNumber]['price'], 
@@ -356,7 +367,7 @@ def showConfirmButton(event, output):
 			text = text + '\n' + x
 	text = text[1:].replace('<br>','\n')
 	confirm_template_message = TemplateSendMessage(
-		alt_text='Confirm template',
+		alt_text='確定',
 		template=ConfirmTemplate(
 			text=text,
 			actions=[
@@ -387,7 +398,7 @@ def showCrossCellOption(event, output):
 			text = text + '\n' + x
 	text = text[1:].replace('<br>','\n')
 	confirm_template_message = TemplateSendMessage(
-		alt_text='Confirm template',
+		alt_text='購入',
 		template=ConfirmTemplate(
 			text=text,
 			actions=[
