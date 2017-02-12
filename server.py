@@ -30,6 +30,8 @@ userDic = {}
 class ServerInfo:
 	URL = 'https://line-python-test.mybluemix.net/'
 	IMAGEURL = URL + 'static/icons/'
+	RESETWORD = u'こんにちは'
+	EXCEPTIONWORDS = ['確定']
 	COFFEE = {
 		'176': {
 			'title': '日本橋ブレンドカプセル(8個入)' ,
@@ -102,7 +104,6 @@ class WatsonInfo:
 	WATSONPASSWORD = 'watson!'
 	COFFEEUSERID = 'C00011'
 	COFFEEPASSWORD = 'XXXXXXXX'
-	RESETWORD = u'こんにちは'
 
 @app.before_request
 def session_management():
@@ -153,7 +154,8 @@ def callback():
 	for event in events:
 		if isinstance(event, MessageEvent):
 			if isinstance(event.message, TextMessage):
-				execution(event, event.message.text)
+				if event.message.text not in ServerInfo.EXCEPTIONWORDS: 
+					execution(event, event.message.text)
 			else:
 				continue
 		elif isinstance(event, PostbackEvent): 
@@ -189,7 +191,7 @@ def callWatson(event, text):
 	headers = { 'Content-Type': 'application/json'}
 	# set login data to dictionary
 	userId = event.source.user_id
-	if userId not in userDic or text == WatsonInfo.RESETWORD:
+	if userId not in userDic or text == ServerInfo.RESETWORD:
 		print('Reset user')
 		userDic[userId] = {}
 		body = {"userId": WatsonInfo.COFFEEUSERID,"password": WatsonInfo.COFFEEPASSWORD}
@@ -394,8 +396,8 @@ def showCrossCellOption(event, output):
 					text='購入する'
 				),
 				MessageTemplateAction(
-					label='今回はやめておく',
-					text='今回はやめておく'
+					label='今回はやめる',
+					text='今回はやめる'
 				)
 			]
 		)
