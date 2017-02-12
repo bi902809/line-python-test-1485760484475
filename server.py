@@ -407,7 +407,7 @@ def showCrossCellOption(event, output):
 				),
 				MessageTemplateAction(
 					label='今回はやめる',
-					text='今回はやめる'
+					text='今回はやめておく'
 				)
 			]
 		)
