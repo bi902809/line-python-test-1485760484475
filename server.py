@@ -35,7 +35,7 @@ class ServerInfo:
 	EXCEPTIONWORDS = ['確定']
 	COFFEE = {
 		'176': {
-			'title': '日本橋ブレンドカプセル(8個入)' ,
+			'title': '日本橋ブレンドーカプセル(8個入り)' ,
 			'price': '￥590' ,
 			'image': IMAGEURL + '176.png',
 			#'message': '「日本橋ブレンド(8個入)」が欲しい' 
@@ -43,19 +43,19 @@ class ServerInfo:
 			'message': '「日本橋ブレンド」が欲しい' 
 		},
 		'182': {
-			'title': 'One more THINKブレンド' ,
+			'title': 'One more THINKブレンドーカプセル(8個入り)' ,
 			'price': '￥600' ,
 			'image': IMAGEURL + '182.png', 
 			'message': '「One more THINKブレンド」が欲しい'
 		},
 		'184': {
-			'title': 'リラックスアロマ' ,
+			'title': 'リラックスアロマーカプセル(8個入り)' ,
 			'price': '￥800' ,
 			'image': IMAGEURL + '184.png', 
 			'message': '「リラックスアロマ」が欲しい'
 		},
 		'185': {
-			'title': 'カプリスモカカプセル(8個入)' ,
+			'title': 'カプリスモカーカプセル(8個入り)' ,
 			'price': '￥750' ,
 			'image': IMAGEURL + '185.png', 
 			#'message': '「カプリスモカ(8個入)」が欲しい'
@@ -63,13 +63,13 @@ class ServerInfo:
 			#'message': '「カプリスモカ ーカプセル (8個入り)」が欲しい'
 		},
 		'186': {
-			'title': 'マンデリンロースト' ,
+			'title': 'マンデリンローストーカプセル(8個入り)' ,
 			'price': '￥800' ,
 			'image': IMAGEURL + '186.png',
 			'message': '「マンデリンロースト」が欲しい'
 		},
 		'187': {
-			'title': 'ブラウンサウンドカプセル(8個入)' ,
+			'title': 'ブラウンサウンドーカプセル(8個入り)' ,
 			'price': '￥600' ,
 			'image': IMAGEURL + '187.png' ,
 			#'message': '「ブラウンサウンド(8個入)」が欲しい'
@@ -77,22 +77,22 @@ class ServerInfo:
 			#'message': '「ブラウンサウンド ーカプセル (8個入り)」が欲しい'
 		},
 		'188': {
-			'title': 'コーヒークリーマー' ,
+			'title': 'コーヒークリーマー(40個入り)' ,
 			'price': ' ' ,
 			'image': IMAGEURL + '188.png', 
 			'message': '「コーヒークリーマー」が欲しい'
 		},
 		'189': {
-			'title': '日本橋ドリップペーパー' ,
+			'title': '日本橋ドリップペーパー(50枚入り)' ,
 			'price': ' ' ,
 			'image': IMAGEURL + '189.png', 
 			'message': '「日本橋ドリップペーパー」が欲しい'
 		},
 		'201': {
-			'title': 'Other' ,
+			'title': '幕張ブレンドーカプセル(8個入り)' ,
 			'price': ' ' ,
 			'image': IMAGEURL + '201.png',
-			'message': '「Other」が欲しい'
+			'message': '「幕張ブレンドーカプセル」が欲しい'
 		}
 	}
 
