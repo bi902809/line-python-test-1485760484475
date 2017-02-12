@@ -29,14 +29,15 @@ userDic = {}
 
 class ServerInfo:
 	URL = 'https://line-python-test.mybluemix.net/'
-	IMAGEURL = URL + 'static/images/'
+	IMAGEURL = URL + 'static/icons/'
 	COFFEE = {
 		'176': {
 			'title': '日本橋ブレンドカプセル(8個入)' ,
 			'price': '￥590' ,
 			'image': IMAGEURL + '176.png',
 			#'message': '「日本橋ブレンド(8個入)」が欲しい' 
-			'message': '「日本橋ブレンド」が欲しい' 
+			'message': '「日本橋ブレンド ーカプセル (8個入り)」が欲しい' 
+			#'message': '「日本橋ブレンド」が欲しい' 
 		},
 		'182': {
 			'title': 'One more THINKブレンド' ,
@@ -55,7 +56,8 @@ class ServerInfo:
 			'price': '￥750' ,
 			'image': IMAGEURL + '185.png', 
 			#'message': '「カプリスモカ(8個入)」が欲しい'
-			'message': '「カプリスモカ」が欲しい'
+			#'message': '「カプリスモカ」が欲しい'
+			'message': '「カプリスモカ ーカプセル (8個入り)」が欲しい'
 		},
 		'186': {
 			'title': 'マンデリンロースト' ,
@@ -68,7 +70,8 @@ class ServerInfo:
 			'price': '￥600' ,
 			'image': IMAGEURL + '187.png' ,
 			#'message': '「ブラウンサウンド(8個入)」が欲しい'
-			'message': '「ブラウンサウンド」が欲しい'
+			#'message': '「ブラウンサウンド」が欲しい'
+			'message': '「ブラウンサウンド ーカプセル (8個入り)」が欲しい'
 		},
 		'188': {
 			'title': 'コーヒークリーマー' ,
@@ -210,6 +213,7 @@ def firstAction(event, output):
 	if 'text' in output:
 		for x in output['text']:
 			text = text + '\n' + x
+	text = text[1:].replace('<br>','\n')
 	type_string = ''
 
 	carousel_template = CarouselTemplate(columns=[
@@ -239,7 +243,7 @@ def firstAction(event, output):
 		alt_text='Buttons alt text', template=carousel_template)
 	line_bot_api.reply_message(
 		event.reply_token,
-		TextSendMessage(text=text[1:])
+		TextSendMessage(text=text)
 	)
 	line_bot_api.push_message(
 		userId,
@@ -259,9 +263,10 @@ def resendMessage(event, output):
 	if 'text' in output:
 		for x in output['text']:
 			text = text + '\n' + x
+	text = text[1:].replace('<br>','\n')
 	line_bot_api.push_message(
 		userId,
-		TextSendMessage(text=text[1:])
+		TextSendMessage(text=text)
 	)
 	event.message.text = 'resend'
 	execution(event)
@@ -274,10 +279,11 @@ def showYesNo(event, output):
 	if 'text' in output:
 		for x in output['text']:
 			text = text + '\n' + x
+	text = text[1:].replace('<br>','\n')
 	confirm_template_message = TemplateSendMessage(
 		alt_text='Confirm template',
 		template=ConfirmTemplate(
-			text=text[1:],
+			text=text,
 			actions=[
 				MessageTemplateAction(
 					label='はい',
@@ -303,9 +309,10 @@ def showIcon(event, output):
 	if 'text' in output:
 		for x in output['text']:
 			text = text + '\n' + x
+	text = text[1:].replace('<br>','\n')
 	line_bot_api.reply_message(
 		event.reply_token,
-		TextSendMessage(text=text[1:])
+		TextSendMessage(text=text)
 	)
 	partNumber = userDic[userId]['order']['item0']['partNumber']
 	buttons_template_message = TemplateSendMessage(
@@ -342,10 +349,11 @@ def showConfirmButton(event, output):
 	if 'text' in output:
 		for x in output['text']:
 			text = text + '\n' + x
+	text = text[1:].replace('<br>','\n')
 	confirm_template_message = TemplateSendMessage(
 		alt_text='Confirm template',
 		template=ConfirmTemplate(
-			text=text[1:],
+			text=text,
 			actions=[
 				MessageTemplateAction(
 					label='確定',
@@ -371,10 +379,11 @@ def showCrossCellOption(event, output):
 	if 'text' in output:
 		for x in output['text']:
 			text = text + '\n' + x
+	text = text[1:].replace('<br>','\n')
 	confirm_template_message = TemplateSendMessage(
 		alt_text='Confirm template',
 		template=ConfirmTemplate(
-			text=text[1:],
+			text=text,
 			actions=[
 				MessageTemplateAction(
 					label='購入する',
@@ -399,9 +408,10 @@ def replyAction(event, output):
 	if 'text' in output:
 		for x in output['text']:
 			text = text + '\n' + x
+	text = text[1:].replace('<br>','\n')
 	line_bot_api.reply_message(
 		event.reply_token,
-		TextSendMessage(text=text[1:])
+		TextSendMessage(text=text)
 	)
 
 if __name__ == '__main__':
