@@ -249,13 +249,12 @@ def firstAction(event, output):
 	template_message = TemplateSendMessage(
 		alt_text='こんにちは',
 		template=carousel_template)
-	image_message_template = ImageSendMessage(
-		original_content_url=ServerInfo.LOGOURL,
-		preview_image_url=ServerInfo.LOGOURL
-	)
 	line_bot_api.reply_message(
 		event.reply_token,
-		image_message_template
+		ImageSendMessage(
+			original_content_url=ServerInfo.LOGOURL,
+			preview_image_url=ServerInfo.LOGOURL
+		)
 	)
 	line_bot_api.push_message(
 		userId,
