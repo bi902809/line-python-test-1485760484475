@@ -360,7 +360,7 @@ def showConfirmButton(event, output):
 			actions=[
 				PostbackTemplateAction(
 					label='確定',
-					text='確定'
+					text='確定',
 					data='finalorder'
 				),
 				MessageTemplateAction(
