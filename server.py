@@ -214,7 +214,7 @@ def firstAction(event, output):
 		for x in output['text']:
 			text = text + '\n' + x
 	text = text[1:].replace('<br>','\n')
-	type_string = ''
+	type_string = '人気のドリップ'
 
 	carousel_template = CarouselTemplate(columns=[
 		CarouselColumn(
