@@ -263,7 +263,7 @@ def firstAction(event, output):
 	)
 	line_bot_api.push_message(
 		userId,
-		TextSendMessage(text=u'日本橋珈琲 人気のドリップ')
+		TextSendMessage(text=u'日本橋珈琲 人気のドリップをご紹介します。')
 	)
 
 	line_bot_api.push_message(
