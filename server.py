@@ -114,26 +114,11 @@ def session_management():
 @app.route('/')
 def hello_world():
 	global userDic
-	print(ServerInfo.COFFEE['185']['image'])
-
-	label=u'購入する'
-	text=ServerInfo.COFFEE['184']['title'] + u'が欲しい'
-	print(label)
-	print(text)
-	s = requests.Session()
-	s.auth = (WatsonInfo.WATSONUSERID, WatsonInfo.WATSONPASSWORD)
-	#body = {"userId": WatsonInfo.COFFEEUSERID,"password": WatsonInfo.COFFEEPASSWORD}
-	headers = { 'Content-Type': 'application/json'}
-	config = { "customerId": "C00011", "customerNameJa": "箱崎太郎"}
-	input = { "text": ""}
-	body = {"context": config, "input": input}
-	r = s.post(WatsonInfo.MESSAGEURL,data=json.dumps(body),headers = headers)
-
 	# set login data to dictionary
 	output = ''
 	for k in userDic.keys():
-		output = output + k + '\n'
-	return 'You are not logged in' + r.text
+		output = '\n' + k + output  
+	return 'You are logged in:' + output
 	
 @app.route("/callback", methods=['POST'])
 def callback():
@@ -180,6 +165,8 @@ def execution(event, text):
 		showCrossCellOption(event, output)
 	elif userDic[userId]['nextFrontAction'] == 'showConfirmButton':
 		showConfirmButton(event, output)
+	elif userDic[userId]['nextFrontAction'] == 'showYesNo_showIcon':
+		showYesNo_showIcon(event, output)
 	else:
 		replyAction(event, output)
 
@@ -416,6 +403,28 @@ def showCrossCellOption(event, output):
 		event.reply_token,
 		confirm_template_message
 	)
+def showYesNo_showIcon(event, output):
+	global userDic
+	userId = event.source.user_id
+	text = ''
+	print(output)
+	if 'text' in output:
+		for x in output['text']:
+			text = text + '\n' + x
+	text = text[1:].replace('<br>','\n')
+	line_bot_api.reply_message(
+		event.reply_token,
+		TextSendMessage(text=text)
+	)
+	partNumber = userDic[userId]['order']['item0']['partNumber']
+	if(partNumber):
+		line_bot_api.push_message(
+			userId,
+			ImageSendMessage(
+				original_content_url=ServerInfo.COFFEE[partNumber]['image'],
+				preview_image_url=ServerInfo.COFFEE[partNumber]['image']
+			)
+		)
 def replyAction(event, output):
 	global userDic
 	userId = event.source.user_id
