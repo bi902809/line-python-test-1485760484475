@@ -26,12 +26,14 @@ line_bot_api = LineBotApi(os.getenv("LINE_CHANNEL_ACCESS_TOKEN", "x"))
 parser = WebhookParser(os.getenv("LINE_CHANNEL_SECRET", "x"))
 
 userDic = {}
+userURL = {}
 
 class ServerInfo:
 	URL = 'https://line-python-test.mybluemix.net/'
 	IMAGEURL = URL + 'static/icons/'
 	LOGOURL = URL + 'static/images/NHcoffee1-logoJs_brown.png'
-	RESETWORD = u'こんにちは'
+	RESETWORD_STUB = u'こんにちは'
+	RESETWORD_ERP = u'こんにちはERP'
 	EXCEPTIONWORDS = ['確定']
 	COFFEE = {
 		'176': {
@@ -97,8 +99,16 @@ class ServerInfo:
 	}
 
 #Parameters to get Watson Data
-class WatsonInfo:
+class WatsonInfo_ERP:
 	URL = 'http://watson-erp-coffee.mybluemix.net/'
+	LOGINURL = URL + 'api/login'
+	MESSAGEURL = URL + 'api/message' 
+	WATSONUSERID = 'coguser' 
+	WATSONPASSWORD = 'watson!'
+	COFFEEUSERID = 'C00011'
+	COFFEEPASSWORD = 'XXXXXXXX'
+class WatsonInfo_STUB:
+	URL = 'http://erp-coffee-concierge.mybluemix.net/'
 	LOGINURL = URL + 'api/login'
 	MESSAGEURL = URL + 'api/message' 
 	WATSONUSERID = 'coguser' 
@@ -117,7 +127,7 @@ def hello_world():
 	# set login data to dictionary
 	output = ''
 	for k in userDic.keys():
-		output = '\n' + k + output  
+		output = '<br>' + k + ': ' + userURL[k] + output  
 	return 'You are logged in:' + output
 	
 @app.route("/callback", methods=['POST'])
@@ -172,22 +182,28 @@ def execution(event, text):
 
 def callWatson(event, text):
 	global userDic
-	print('start call watson')
-	#Watson Authentications
-	s = requests.Session()
-	s.auth = (WatsonInfo.WATSONUSERID, WatsonInfo.WATSONPASSWORD)
-	headers = { 'Content-Type': 'application/json'}
 	# set login data to dictionary
 	userId = event.source.user_id
-	if userId not in userDic or text == ServerInfo.RESETWORD:
+	print('start call watson')
+	if text == ServerInfo.RESETWORD_STUB:
+		userURL[userId] = WatsonInfo_STUB
+	elif text == ServerInfo.RESETWORD_ERP:
+		userURL[userId] = WatsonInfo_ERP
+	elif userId not in userURL:
+		userURL[userId] = WatsonInfo_STUB
+	#Watson Authentications
+	s = requests.Session()
+	s.auth = (userURL[userId].WATSONUSERID, userURL[userId].WATSONPASSWORD)
+	headers = { 'Content-Type': 'application/json'}
+	if userId not in userDic or text == ServerInfo.RESETWORD_STUB or text == ServerInfo.RESETWORD_ERP:
 		print('Reset user')
 		userDic[userId] = {}
-		body = {"userId": WatsonInfo.COFFEEUSERID,"password": WatsonInfo.COFFEEPASSWORD}
-		r = s.post(WatsonInfo.LOGINURL,data=json.dumps(body),headers=headers)
+		body = {"userId": userURL[userId].COFFEEUSERID,"password": userURL[userId].COFFEEPASSWORD}
+		r = s.post(userURL[userId].LOGINURL,data=json.dumeaders=headers)
 		result = json.loads(r.text)
 		userDic[userId] = result['context']
 	body = { 'context' : userDic[userId], 'input' : { 'text' : text }}
-	r = s.post(WatsonInfo.MESSAGEURL,data=json.dumps(body),headers=headers)
+	r = s.post(userURL[userId].MESSAGEURL,data=json.dumps(body),headers=headers)
 	result = json.loads(r.text)
 	print(result)
 	userDic[userId] = result['context']
