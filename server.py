@@ -123,7 +123,7 @@ def session_management():
 
 @app.route('/')
 def hello_world():
-	global userDic
+	global userDic, userURL
 	# set login data to dictionary
 	output = ''
 	for k in userDic.keys():
@@ -181,7 +181,7 @@ def execution(event, text):
 		replyAction(event, output)
 
 def callWatson(event, text):
-	global userDic
+	global userDic, userURL
 	# set login data to dictionary
 	userId = event.source.user_id
 	print('start call watson')
@@ -199,7 +199,7 @@ def callWatson(event, text):
 		print('Reset user')
 		userDic[userId] = {}
 		body = {"userId": userURL[userId].COFFEEUSERID,"password": userURL[userId].COFFEEPASSWORD}
-		r = s.post(userURL[userId].LOGINURL,data=json.dumeaders=headers)
+		r = s.post(userURL[userId].LOGINURL,data=json.dumps(body),headers=headers)
 		result = json.loads(r.text)
 		userDic[userId] = result['context']
 	body = { 'context' : userDic[userId], 'input' : { 'text' : text }}
