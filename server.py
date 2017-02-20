@@ -127,7 +127,7 @@ def hello_world():
 	# set login data to dictionary
 	output = ''
 	for k in userDic.keys():
-		output = '<br>' + k + ': ' + userURL[k] + output  
+		output = '<br>' + k + ': ' + userURL[k].URL + output  
 	return 'You are logged in:' + output
 	
 @app.route("/callback", methods=['POST'])
